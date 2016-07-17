@@ -23,8 +23,9 @@
     </bean>
 
 
-    <mvc:view-controller path="/about.html" view-name="/about/about"/>
-    <mvc:view-controller path="/index.html" view-name="/index"/>
+    <mvc:view-controller path="/about" view-name="/about/about"/>
+    <mvc:view-controller path="/index" view-name="/index"/>
+    <mvc:view-controller path="/photos" view-name="/photos/photos"/>
 
 
 </beans>
