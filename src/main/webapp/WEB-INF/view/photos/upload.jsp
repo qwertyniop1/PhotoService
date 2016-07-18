@@ -1,13 +1,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://cloudinary.com/jsp/taglib" prefix="cl" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:wrapper title="Upload photo">
     <jsp:attribute name="body">
         <h1>Uploading photo</h1>
-        <input name="file" type="file"
-               class="cloudinary-fileupload" data-cloudinary-field="image_upload"
-               data-form-data='${cloudinaryData}' />
+        <form>
+            <div class="form-group">
+                <label id="upload-status" class="control-label"></label>
+                <cl:upload fieldName="image_id" resourceType="auto" callback="/resources/cloudinary_cors.html" />
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                        <span class="sr-only">70% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+         <div id="preview">
+
+         </div>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <script src="<c:url value="/resources/js/jquery.js" />" type="text/javascript"></script>
@@ -17,22 +29,50 @@
         <script src="<c:url value="/resources/js/jquery.cloudinary.js" />" type="text/javascript"></script>
 
         <script type="text/javascript">
-            //$(document).ready(function () {
             $.cloudinary.config({ cloud_name: 'itraphotocloud', api_key: '891695265656755'})
 
-//            $('.cloudinary-fileupload').fileupload(function(e, data) {
-//                alert(";lslsksjbfjvbnvjxn");
-//            });
+            $(document).ready(function() {
+                $(".cloudinary-fileupload")
+                        .cloudinary_fileupload({
+                            start: function (e) {
+                                $('#upload-status').text('Loading...');
+                                $('.form-group').removeClass('has-success');
+                                $('.form-group').removeClass('has-error');
+                                $('.form-group').addClass('has-warning');
+                                $('.progress-bar').addClass('progress-bar-striped');
+                                $('.progress-bar').addClass('active');
+                                $('.progress-bar').removeClass('progress-bar-success');
+                                $('.progress-bar').removeClass('progress-bar-danger');
+                                $('.progress-bar').width('0%');
+                            },
+                            progress: function (e, data) {
+                                $('.progress-bar').width(data.loaded / data.total * 100 + '%');
+                            },
+                            fail: function (e, data) {
+                                $('#upload-status').text('Load failed');
+                                $('.form-group').removeClass('has-warning');
+                                $('.form-group').addClass('has-error');
+                                $('.progress-bar').removeClass('active');
+                                $('.progress-bar').removeClass('progress-bar-striped');
+                                $('.progress-bar').addClass('progress-bar-danger');
+                            }
+                        })
+                        .off("cloudinarydone").on("cloudinarydone", function (e, data) {
+                            $('#upload-status').text('Loaded successful');
+                            $('.form-group').removeClass('has-warning');
+                            $('.form-group').addClass('has-success');
+                            $('.progress-bar').removeClass('active');
+                            $('.progress-bar').removeClass('progress-bar-striped');
+                            $('.progress-bar').addClass('progress-bar-success');
 
-            //});
+                            $('#preview').html($.cloudinary.image(data.result.public_id, {
+                                format: data.result.format, width: 100, height: 100, crop: "fit"
+                            }));
+                        })
 
+
+
+            });
         </script>
-
     </jsp:attribute>
 </t:wrapper>
-
-
-
-
-
-<%--<script src='jquery.min.js' type='text/javascript'></script>--%>
