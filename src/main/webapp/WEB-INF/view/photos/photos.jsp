@@ -1,7 +1,11 @@
-<jsp:include page="../base/pre.jsp" />
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<h1>Hello</h1>
+<t:wrapper title="Photo">
+    <jsp:attribute name="body">
+        <h1>Photos</h1>
+    </jsp:attribute>
+    <jsp:attribute name="scripts"></jsp:attribute>
+</t:wrapper>
 
 
-
-<jsp:include page="../base/post.jsp" />

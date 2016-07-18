@@ -13,9 +13,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("photos")
-    public String photos() {
-        return "photos/photos";
-    }
-
 }
+
+

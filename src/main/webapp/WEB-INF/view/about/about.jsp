@@ -1,6 +1,9 @@
-<jsp:include page="../base/pre.jsp" />
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-    <!-- Page Heading/Breadcrumbs -->
+<t:wrapper title="About">
+    <jsp:attribute name="body">
+    <!-- Page Heading Breadcrumbs -->
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">About
@@ -176,5 +179,7 @@
         </div>
     </div>
     <!-- /.row -->
+    </jsp:attribute>
+    <jsp:attribute name="scripts"></jsp:attribute>
+</t:wrapper>
 
-<jsp:include page="../base/post.jsp" />

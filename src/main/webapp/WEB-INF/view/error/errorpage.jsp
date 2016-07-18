@@ -1,4 +1,8 @@
-<jsp:include page="../base/pre.jsp" />
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+<t:wrapper title="Error">
+    <jsp:attribute name="body">
 
 <!-- Page Heading/Breadcrumbs -->
     <div class="row">
@@ -26,8 +30,8 @@
         </div>
 
     </div>
+    </jsp:attribute>
+    <jsp:attribute name="scripts">
 
-    <hr>
-
-<jsp:include page="../base/post.jsp" />
-
+    </jsp:attribute>
+</t:wrapper>

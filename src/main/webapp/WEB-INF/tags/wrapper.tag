@@ -1,13 +1,14 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@tag description="Simple Wrapper Tag" pageEncoding="UTF-8"%>
+<%@attribute name="title" required="true" %>
+<%@attribute name="body" fragment="true" %>
+<%@attribute name="scripts" fragment="true" %>
+
 <!DOCTYPE html>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
 <html>
 <head>
-    <title>Photo Cloud Service</title>
-    <spring:url value="resources/css/bootstrap.css" var="bootstrap"/>
+    <title>${title}</title>
+    <spring:url value="/resources/css/bootstrap.css" var="bootstrap"/>
     <spring:url value="/resources/css/modern-business.css" var="startertemplate"/>
     <link href="${bootstrap}" rel="stylesheet" />
     <link href="${startertemplate}" rel="stylesheet" />
@@ -42,3 +43,22 @@
 </nav>
 
 <div class="container">
+
+    <jsp:invoke fragment="body" />
+
+    <hr>
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; Itransition 2016</p>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- /.container -->
+
+<jsp:invoke fragment="scripts" />
+
+</body>
+</html>
