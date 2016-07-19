@@ -5,7 +5,7 @@
 
 <t:wrapper title="Upload photo">
     <jsp:attribute name="body">
-        <h1>Uploading photo</h1>
+        <h1>Photo</h1>
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-md-6">
@@ -66,7 +66,10 @@
                             }
                         })
                         .off("cloudinarydone").on("cloudinarydone", function (e, data) {
-                            //$.get()
+                            $.get('photo/upload?photo_id=' + data.result.public_id, function (data, status) {
+                                console.log(data);
+                                console.log(status);
+                            })
 
                             $('#upload-status').text('Loaded successful');
                             $('.form-group').removeClass('has-warning');
