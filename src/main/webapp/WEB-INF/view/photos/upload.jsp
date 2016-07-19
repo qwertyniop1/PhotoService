@@ -6,17 +6,24 @@
 <t:wrapper title="Upload photo">
     <jsp:attribute name="body">
         <h1>Uploading photo</h1>
-        <form>
-            <div class="form-group">
-                <label id="upload-status" class="control-label"></label>
-                <cl:upload fieldName="image_id" resourceType="auto" callback="/resources/cloudinary_cors.html" />
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:0%">
-                        <span class="sr-only">70% Complete</span>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-md-6">
+                <form>
+                    <div class="form-group">
+                        <label id="upload-status" class="control-label"></label>
+                        <div class="progress hidden">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                <span class="sr-only">70% Complete</span>
+                            </div>
+                        </div>
+                        <cl:upload fieldName="image_id" resourceType="auto" callback="/resources/cloudinary_cors.html" multiple="false" extraClasses="center-block btn btn-success"/>
                     </div>
-                </div>
+                </form>
             </div>
-        </form>
+            <div class="col-lg-3"></div>
+        </div>
+
          <div id="preview">
 
          </div>
@@ -35,6 +42,7 @@
                 $(".cloudinary-fileupload")
                         .cloudinary_fileupload({
                             start: function (e) {
+                                $('.progress').removeClass('hidden');
                                 $('#upload-status').text('Loading...');
                                 $('.form-group').removeClass('has-success');
                                 $('.form-group').removeClass('has-error');
@@ -58,6 +66,8 @@
                             }
                         })
                         .off("cloudinarydone").on("cloudinarydone", function (e, data) {
+                            //$.get()
+
                             $('#upload-status').text('Loaded successful');
                             $('.form-group').removeClass('has-warning');
                             $('.form-group').addClass('has-success');
@@ -65,9 +75,9 @@
                             $('.progress-bar').removeClass('progress-bar-striped');
                             $('.progress-bar').addClass('progress-bar-success');
 
-                            $('#preview').html($.cloudinary.image(data.result.public_id, {
-                                format: data.result.format, width: 100, height: 100, crop: "fit"
-                            }));
+                            $('#preview').append($.cloudinary.image(data.result.public_id, {
+                                format: data.result.format, width: 150, height: 150, crop: "fit"}));
+                            $('#preview').children().last().wrap($('<a>', { href: data.result.url, target: '_blank' }));
                         })
 
 
