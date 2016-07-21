@@ -9,7 +9,7 @@
               <canvas id="main-canvas" width="800" height="600" style="border: 1px solid rgb(0, 0, 0); margin: 20px; "></canvas>
           </div>
           <div class="col-md-3">
-              <form style="margin-top: 50px;">
+              <form class="image-tools" style="margin-top: 50px;">
                   <div class="checkbox">
                       <label>
                           Яркость
@@ -95,7 +95,7 @@
       </div>
     </jsp:attribute>
     <jsp:attribute name="pagescripts">
-    <script src="/resources/js/fabric.min.js" type="text/javascript"></script>
+        <script src="/resources/js/fabric.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             var canvas = new fabric.Canvas('main-canvas');
             canvas.selection = true;
@@ -210,7 +210,7 @@
                 // make the link. set the href and download. emulate dom click
                 $('<a>').attr({href:url,download:name})[0].click();
             }
-            $('form:first').submit(function() {
+            $('.image-tools').submit(function() {
                 canvas.deactivateAll().renderAll();
                 download(canvas.toDataURL(), 'dddd.png');
                 return false;

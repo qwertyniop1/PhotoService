@@ -19,19 +19,19 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">Авторизируйтесь, чтобы воспользоваться функционалом сайта</div>
                     <div class="panel-body">
-                        <sf:form method="post" commandName="user">
-        <%--Add bootstrap styles!!!--%>
+                        <form method="post" action="<c:url value="/login" />" id="login-form">
                             <div class="form-group">
-                                <sf:label path="username" title="Логин" for="username">Логин</sf:label>
-                                <sf:input path="username" cssClass="form-control" />
+                                <label for="username">Email</label>
+                                <input type="email" class="form-control" id="username" name="username" placeholder="Email">
                             </div>
                             <div class="form-group">
-                                <sf:label path="password" title="Пароль" for="password">Пароль</sf:label>
-                                <sf:password path="password" cssClass="form-control"/>
+                                <label for="password">Пароль</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
                             </div>
+                            <p>Нет аккаунта? <a href="<c:url value="/register" />">Зарегистрируйтесь</a></p>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <input type="submit" value="Войти" class="btn btn-default center-block"/>
-                        </sf:form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -44,11 +44,11 @@
         <script type="text/javascript">
             $(document).ready(function () {
 
-                $('#user').validate({
+                $('#login-form').validate({
                     rules: {
                         username: {
                             minlength: 2,
-                            maxlength: 45,
+                            email: true,
                             required: true
                         },
                         password: {
@@ -62,6 +62,7 @@
                     success: function (element) {
                         element.addClass('valid')
                                 .closest('.form-group').removeClass('has-error').addClass('has-success');
+//                        element.closest('.error').css('display', 'none');
                     }
                 });
 

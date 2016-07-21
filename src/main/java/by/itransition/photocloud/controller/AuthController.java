@@ -11,8 +11,14 @@ public class AuthController {
 
     @GetMapping("/login")
     public String loginForm(Model model) {
-        model.addAttribute(new User());
+//        model.addAttribute(new User());
         return "auth/login";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        model.addAttribute(new User());
+        return "auth/registration";
     }
 
 }
