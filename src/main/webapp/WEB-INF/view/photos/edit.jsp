@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:wrapper title="Edit">
-    <jsp:attribute name="body">
+<t:pagewrapper title="Редактирование изображения">
+    <jsp:attribute name="pagebody">
       <div class="row">
           <div class="col-md-9">
               <canvas id="main-canvas" width="800" height="600" style="border: 1px solid rgb(0, 0, 0); margin: 20px; "></canvas>
@@ -94,8 +94,7 @@
           </div>
       </div>
     </jsp:attribute>
-    <jsp:attribute name="scripts">
-    <script src="/resources/js/jquery.js" type="text/javascript"></script>
+    <jsp:attribute name="pagescripts">
     <script src="/resources/js/fabric.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             var canvas = new fabric.Canvas('main-canvas');
@@ -216,9 +215,7 @@
                 download(canvas.toDataURL(), 'dddd.png');
                 return false;
             });
-
-
             //canvas.renderAll();
         </script>
     </jsp:attribute>
-</t:wrapper>
+</t:pagewrapper>

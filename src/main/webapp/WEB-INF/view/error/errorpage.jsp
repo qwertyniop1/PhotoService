@@ -1,9 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:wrapper title="Error">
-    <jsp:attribute name="body">
-
+<t:pagewrapper title="Ошибка">
+    <jsp:attribute name="pagebody">
 <!-- Page Heading/Breadcrumbs -->
     <div class="row">
         <div class="col-lg-12">
@@ -17,10 +16,7 @@
             </ol>
         </div>
     </div>
-    <!-- /.row -->
-
     <div class="row">
-
         <div class="col-lg-12">
             <div class="jumbotron">
                 <h1><span class="error-404">404</span>
@@ -31,7 +27,7 @@
 
     </div>
     </jsp:attribute>
-    <jsp:attribute name="scripts">
+    <jsp:attribute name="pagescripts">
 
     </jsp:attribute>
-</t:wrapper>
+</t:pagewrapper>

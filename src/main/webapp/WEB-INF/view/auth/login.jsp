@@ -3,8 +3,16 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<t:wrapper title="Авторизация">
-    <jsp:attribute name="body">
+<t:pagewrapper title="Авторизация">
+    <jsp:attribute name="pagebody">
+        <div class="row" style="margin-top: 20px">
+            <c:if test="${param.error != null}">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Ошибка!</strong> Неверное имя пользователя или пароль.
+                </div>
+            </c:if>
+        </div>
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
@@ -24,16 +32,41 @@
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                             <input type="submit" value="Войти" class="btn btn-default center-block"/>
                         </sf:form>
-                        <c:if test="${param.error != null}">
-                            lldldldldldld
-                        </c:if>
                     </div>
                 </div>
             </div>
             <div class="col-md-4"></div>
         </div>
     </jsp:attribute>
-    <jsp:attribute name="scripts">
+    <jsp:attribute name="pagescripts">
+        <script src="<c:url value="/resources/js/jquery.validate.min.js" />" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/messages_ru.min.js" />" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
 
+                $('#user').validate({
+                    rules: {
+                        username: {
+                            minlength: 2,
+                            maxlength: 45,
+                            required: true
+                        },
+                        password: {
+                            minlength: 6,
+                            required: true
+                        }
+                    },
+                    highlight: function (element) {
+                        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                    },
+                    success: function (element) {
+                        element.addClass('valid')
+                                .closest('.form-group').removeClass('has-error').addClass('has-success');
+                    }
+                });
+
+            });
+
+        </script>
     </jsp:attribute>
-</t:wrapper>
+</t:pagewrapper>
