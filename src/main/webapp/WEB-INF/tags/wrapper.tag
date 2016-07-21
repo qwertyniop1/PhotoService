@@ -1,4 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@tag description="Simple Wrapper Tag" pageEncoding="UTF-8"%>
 <%@attribute name="title" required="true" %>
 <%@attribute name="body" fragment="true" %>
@@ -33,7 +34,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#">Sign in</a>
+                    <a href="<c:url value="/login" /> ">Войти</a>
+                </li>
+                <li>
+                    <a href="<c:url value="/logout" />">Выйти</a>
                 </li>
             </ul>
         </div>
