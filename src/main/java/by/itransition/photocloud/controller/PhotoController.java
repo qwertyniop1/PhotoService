@@ -3,6 +3,7 @@ package by.itransition.photocloud.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,7 +16,7 @@ public class PhotoController {
         return "photos/index";
     }
 
-    @GetMapping("/upload")
+    @PostMapping("/upload")
     public String uploadPhoto(@RequestParam("photo_id") String photoId, Model model) {
         //System.out.println(photoId);
         return null;

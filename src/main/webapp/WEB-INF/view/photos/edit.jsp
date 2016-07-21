@@ -13,44 +13,44 @@
                   <div class="checkbox">
                       <label>
                           Яркость
-                          <input type="range" value="0" min="0" max="100" class="slider" id="slider-brightness">
+                          <input type="range" value="0" min="0" max="100" step="2" class="slider" id="slider-brightness">
                       </label>
                   </div>
                   <div class="checkbox">
                       <label>
                           Пиксельность
-                          <input type="range" value="1" min="1" max="25" class="slider" id="slider-pixel">
+                          <input type="range" value="1" min="1" max="25" step="1" class="slider" id="slider-pixel">
                       </label>
                   </div>
                   <div class="checkbox">
                       <label>
                           Градиент
-                          <input type="range" value="1" min="0" max="254" class="slider" id="slider-gradient">
+                          <input type="range" value="1" min="0" max="254"  step="5" class="slider" id="slider-gradient">
                       </label>
                   </div>
                   <div class="checkbox">
                       <label>
                           Шум
-                          <input type="range" value="0" min="0" max="1000" class="slider" id="slider-noise">
+                          <input type="range" value="0" min="0" max="1000" step="20" class="slider" id="slider-noise">
                       </label>
                   </div>
 
                   <div class="checkbox">
                       <label>
                           Красный
-                          <input type="range" value="255" min="0" max="255" class="slider" id="slider-red">
+                          <input type="range" value="255" min="0" max="255" step="2" class="slider" id="slider-red">
                       </label>
                   </div>
                   <div class="checkbox">
                       <label>
                           Зеленый
-                          <input type="range" value="255" min="0" max="255" class="slider" id="slider-green">
+                          <input type="range" value="255" min="0" max="255" step="2" class="slider" id="slider-green">
                       </label>
                   </div>
                   <div class="checkbox">
                       <label>
                           Синий
-                          <input type="range" value="255" min="0" max="255" class="slider" id="slider-blue">
+                          <input type="range" value="255" min="0" max="255" step="2" class="slider" id="slider-blue">
                       </label>
                   </div>
 
