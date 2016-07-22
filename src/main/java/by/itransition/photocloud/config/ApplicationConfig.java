@@ -2,10 +2,10 @@ package by.itransition.photocloud.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -19,7 +19,31 @@ import java.util.Properties;
 @ComponentScan({ "by.itransition.photocloud.*" })
 @EnableTransactionManagement
 @Import({ SecurityConfig.class })
+@PropertySource("classpath:email.properties")
 public class ApplicationConfig {
+
+    @Autowired
+    private Environment environment;
+
+    @Bean
+    public JavaMailSenderImpl javaMailSenderImpl() {
+        final JavaMailSenderImpl mailSenderImpl = new JavaMailSenderImpl();
+
+        try {
+            mailSenderImpl.setHost(environment.getRequiredProperty("smtp.host"));
+            mailSenderImpl.setPort(environment.getRequiredProperty("smtp.port", Integer.class));
+            mailSenderImpl.setProtocol(environment.getRequiredProperty("smtp.protocol"));
+            mailSenderImpl.setUsername(environment.getRequiredProperty("smtp.username"));
+            mailSenderImpl.setPassword(environment.getRequiredProperty("smtp.password"));
+        } catch (IllegalStateException e) {
+            throw e;
+        }
+        final Properties javaMailProps = new Properties();
+        javaMailProps.put("mail.smtp.auth", true);
+        javaMailProps.put("mail.smtp.starttls.enable", true);
+        mailSenderImpl.setJavaMailProperties(javaMailProps);
+        return mailSenderImpl;
+    }
 
     @Bean
     public SessionFactory sessionFactory() {

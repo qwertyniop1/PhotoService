@@ -27,7 +27,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public User save(User user) {
         try {
-            sessionFactory.getCurrentSession().save(user);
+            sessionFactory.getCurrentSession().saveOrUpdate(user);
         } catch (Exception ex) {
             return null;
         }
