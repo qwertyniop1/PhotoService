@@ -3,7 +3,7 @@ package by.itransition.photocloud.auth.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_roles", catalog = "auth", uniqueConstraints = @UniqueConstraint(columnNames = {"role", "username"}))
+@Table(name = "user_roles", catalog = "auth", uniqueConstraints = @UniqueConstraint(columnNames = {"role", "user_email"}))
 public class UserRole {
 
     @Id
@@ -11,7 +11,7 @@ public class UserRole {
     private int userRoleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", nullable = false)
+    @JoinColumn(name = "user_email", nullable = false)
     private User user;
 
     @Column(nullable = false)

@@ -15,12 +15,22 @@ public class UserDaoImpl implements UserDao{
     private SessionFactory sessionFactory;
 
     @Override
-    public User findByUserName(String username) {
+    public User findByEmail(String email) {
         List<User> users = new ArrayList<>();
         users = sessionFactory.getCurrentSession()
-                .createQuery("from User where username=?")
-                .setParameter(0, username)
+                .createQuery("from User where email=?")
+                .setParameter(0, email)
                 .list();
         return users.size() > 0 ? users.get(0) : null;
+    }
+
+    @Override
+    public User save(User user) {
+        try {
+            sessionFactory.getCurrentSession().save(user);
+        } catch (Exception ex) {
+            return null;
+        }
+        return user;
     }
 }

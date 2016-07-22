@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service("userDetailsService")
+//@Transactional
 public class MainUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -25,15 +26,16 @@ public class MainUserDetailsService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        by.itransition.photocloud.auth.model.User user = userDao.findByUserName(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        by.itransition.photocloud.auth.model.User user = userDao.findByEmail(email);
+        if (user == null) throw new UsernameNotFoundException("No user found with username: "+ email);
         List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
         return buildUserForAuthentication(user, authorities);
     }
 
     private User buildUserForAuthentication(by.itransition.photocloud.auth.model.User user,
                                             List<GrantedAuthority> authorities) {
-        return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
+        return new User(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {

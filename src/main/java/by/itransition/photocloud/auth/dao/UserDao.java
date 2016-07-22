@@ -4,6 +4,7 @@ import by.itransition.photocloud.auth.model.User;
 
 public interface UserDao {
 
-    User findByUserName(String username);
+    User findByEmail(String email);
 
+    User save(User user);
 }

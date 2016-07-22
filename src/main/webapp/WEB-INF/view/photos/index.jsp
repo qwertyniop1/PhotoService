@@ -2,8 +2,12 @@
 <%@taglib uri="http://cloudinary.com/jsp/taglib" prefix="cl" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setBundle basename="messages" />
 
-<t:pagewrapper title="Мои изображения">
+<fmt:message key="label.photoTitle" var="title"/>
+
+<t:pagewrapper title="${title}">
     <jsp:attribute name="pagebody">
         <h1>Photo</h1>
         <div class="row">

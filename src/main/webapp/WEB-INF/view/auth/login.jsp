@@ -2,14 +2,23 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setBundle basename="messages" />
 
-<t:pagewrapper title="Авторизация">
+<fmt:message key="label.authorization" var="authorizationTitle"/>
+<fmt:message key="label.signIn" var="signInLabel"/>
+<fmt:message key="label.password" var="passwordLabel"/>
+<fmt:message key="message.haveAccount" var="haveAccount"/>
+<fmt:message key="message.register" var="registerLabel"/>
+<fmt:message key="message.authorizationNeeded" var="authorizationNeeded"/>
+
+<t:pagewrapper title="${authorizationTitle}">
     <jsp:attribute name="pagebody">
         <div class="row" style="margin-top: 20px">
             <c:if test="${param.error != null}">
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Ошибка!</strong> Неверное имя пользователя или пароль.
+                    <strong><fmt:message key="message.error"/></strong> <fmt:message key="message.badCredentials"/>
                 </div>
             </c:if>
         </div>
@@ -17,7 +26,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <div class="panel panel-info">
-                    <div class="panel-heading">Авторизируйтесь, чтобы воспользоваться функционалом сайта</div>
+                    <div class="panel-heading">${authorizationNeeded}</div>
                     <div class="panel-body">
                         <form method="post" action="<c:url value="/login" />" id="login-form">
                             <div class="form-group">
@@ -25,12 +34,12 @@
                                 <input type="email" class="form-control" id="username" name="username" placeholder="Email">
                             </div>
                             <div class="form-group">
-                                <label for="password">Пароль</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Пароль">
+                                <label for="password">${passwordLabel}</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="${passwordLabel}">
                             </div>
-                            <p>Нет аккаунта? <a href="<c:url value="/register" />">Зарегистрируйтесь</a></p>
+                            <p>${haveAccount} <a href="<c:url value="/register" />">${registerLabel}</a></p>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                            <input type="submit" value="Войти" class="btn btn-default center-block"/>
+                            <input type="submit" value="${signInLabel}" class="btn btn-default center-block"/>
                         </form>
                     </div>
                 </div>

@@ -2,8 +2,14 @@
 <%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%--<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>--%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setBundle basename="messages" />
 
-<t:pagewrapper title="Главная">
+<fmt:message key="label.main" var="title"/>
+<fmt:message key="message.welcome" var="welcome"/>
+
+
+<t:pagewrapper title="${title}">
     <jsp:attribute name="jumbotron">
         <!-- Header Carousel -->
     <header id="myCarousel" class="carousel slide">
@@ -50,7 +56,7 @@
         <div class="row">
           <div class="col-lg-12">
               <h1 class="page-header">
-                  Добро пожаловать на фотохостинг Itransition
+                  ${welcome}
               </h1>
           </div>
           <div class="col-md-4">
