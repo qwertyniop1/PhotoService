@@ -86,6 +86,11 @@ public class AuthController {
         return "redirect:/login?activate=true&lang=" + locale.getLanguage();
     }
 
+    @GetMapping("/wrong-user")
+    public String wrongUser(Model model) {
+        return "auth/wrongUser"; // TODO problem with encoding message
+    }
+
     private User createUser(UserDto user, BindingResult result) {
         User registered = null;
         try {

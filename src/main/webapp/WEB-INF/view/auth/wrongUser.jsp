@@ -8,6 +8,6 @@
 
 <t:errorwrapper errorName="${errorTitle}" errorText="${errorText}">
     <jsp:attribute name="errorTextExtra">
-        ${message}
+        ${param.get("message")}
     </jsp:attribute>
 </t:errorwrapper>

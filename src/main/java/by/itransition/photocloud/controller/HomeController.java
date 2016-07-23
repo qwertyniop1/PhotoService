@@ -13,6 +13,11 @@ public class HomeController {
         return "index";
     }
 
+    @RequestMapping("/403")
+    String accessDenied() {
+        return "error/403";
+    }
+
 }
 
 
