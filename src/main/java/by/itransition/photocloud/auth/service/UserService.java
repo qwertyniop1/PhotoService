@@ -1,6 +1,7 @@
 package by.itransition.photocloud.auth.service;
 
 import by.itransition.photocloud.auth.dao.UserDao;
+import by.itransition.photocloud.auth.dao.UserRoleDao;
 import by.itransition.photocloud.auth.dao.VerificationTokenDao;
 import by.itransition.photocloud.auth.dto.UserDto;
 import by.itransition.photocloud.auth.model.User;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 @Transactional
@@ -23,6 +25,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private VerificationTokenDao tokenRepository;
+
+    @Autowired
+    private UserRoleDao roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -40,7 +45,7 @@ public class UserService implements IUserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
         user.setEnabled(false);
-//        user.setUserRole(new HashSet<>(new UserRole()));
+        user.setUserRoles(new HashSet<>(roleRepository.findByRole("ROLE_USER")));
         return userRepository.save(user);
     }
 

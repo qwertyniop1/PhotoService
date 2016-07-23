@@ -1,18 +1,21 @@
 package by.itransition.photocloud.auth.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "user_roles", catalog = "auth", uniqueConstraints = @UniqueConstraint(columnNames = {"role", "user_email"}))
+@Table(name = "user_roles", catalog = "auth")
 public class UserRole {
 
     @Id
     @Column(name = "user_role_id", unique = true, nullable = false)
     private int userRoleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_email", nullable = false)
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_email", nullable = false)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userRoles")
+    private Set<User> users = new HashSet<>(0);
 
     @Column(nullable = false)
     private String role;
@@ -20,9 +23,9 @@ public class UserRole {
     public UserRole() {
     }
 
-    public UserRole(int userRoleId, User user, String role) {
+    public UserRole(int userRoleId, Set<User> users, String role) {
         this.userRoleId = userRoleId;
-        this.user = user;
+        this.users = users;
         this.role = role;
     }
 
@@ -34,12 +37,12 @@ public class UserRole {
         this.userRoleId = userRoleId;
     }
 
-    public User getUser() {
-        return user;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public String getRole() {
@@ -58,6 +61,7 @@ public class UserRole {
         UserRole userRole = (UserRole) o;
 
         if (userRoleId != userRole.userRoleId) return false;
+        if (!users.equals(userRole.users)) return false;
         return role.equals(userRole.role);
 
     }
@@ -65,6 +69,7 @@ public class UserRole {
     @Override
     public int hashCode() {
         int result = userRoleId;
+        result = 31 * result + users.hashCode();
         result = 31 * result + role.hashCode();
         return result;
     }
@@ -73,6 +78,7 @@ public class UserRole {
     public String toString() {
         return "UserRole{" +
                 "userRoleId=" + userRoleId +
+                ", users=" + users +
                 ", role='" + role + '\'' +
                 '}';
     }

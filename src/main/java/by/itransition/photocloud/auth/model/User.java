@@ -24,19 +24,23 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private Set<UserRole> userRole = new HashSet<>(0);
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_user_role", catalog = "auth",
+            joinColumns = {@JoinColumn(name = "email", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "user_role_id", nullable = false)})
+    private Set<UserRole> userRoles = new HashSet<>(0);
 
     public User() {
     }
 
-    public User(String email, String password, boolean enabled, String firstName, String lastName, Set<UserRole> userRole) {
+    public User(String email, String password, boolean enabled, String firstName, String lastName, Set<UserRole> userRoles) {
         this.email = email;
         this.password = password;
         this.enabled = enabled;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userRole = userRole;
+        this.userRoles = userRoles;
     }
 
     public String getEmail() {
@@ -79,12 +83,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Set<UserRole> getUserRole() {
-        return userRole;
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setUserRole(Set<UserRole> userRole) {
-        this.userRole = userRole;
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
     @Override
@@ -98,9 +102,9 @@ public class User {
         if (!email.equals(user.email)) return false;
         if (!password.equals(user.password)) return false;
         if (!firstName.equals(user.firstName)) return false;
-        if (!lastName.equals(user.lastName)) return false;
-        return userRole.equals(user.userRole);
-
+//        if (!lastName.equals(user.lastName)) return false;
+//        return userRoles.equals(user.userRoles);
+        return lastName.equals(user.lastName);
     }
 
     @Override
@@ -110,7 +114,7 @@ public class User {
         result = 31 * result + (enabled ? 1 : 0);
         result = 31 * result + firstName.hashCode();
         result = 31 * result + lastName.hashCode();
-        result = 31 * result + userRole.hashCode();
+//        result = 31 * result + userRoles.hashCode();
         return result;
     }
 
@@ -122,7 +126,7 @@ public class User {
                 ", enabled=" + enabled +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", userRole=" + userRole +
+//                ", userRoles=" + userRoles +
                 '}';
     }
 }

@@ -29,7 +29,7 @@ public class MainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         by.itransition.photocloud.auth.model.User user = userDao.findByEmail(email);
         if (user == null) throw new UsernameNotFoundException("No user found with username: "+ email);
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRoles());
         return buildUserForAuthentication(user, authorities);
     }
 
