@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     @Qualifier("userDetailsService")
     UserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder managerBuilder) throws Exception {
@@ -31,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/photo/**").access("hasRole('ROLE_USER')")
                 .and().formLogin().loginPage("/login").failureUrl("/login?error")
                 .usernameParameter("username").passwordParameter("password")
+                .failureHandler(authenticationFailureHandler)
                 .and().logout().logoutSuccessUrl("/login?logout")
                 .and().csrf()
                 .and().exceptionHandling().accessDeniedPage("/403");

@@ -11,6 +11,7 @@
 <fmt:message key="message.haveAccount" var="haveAccount"/>
 <fmt:message key="message.register" var="registerLabel"/>
 <fmt:message key="message.authorizationNeeded" var="authorizationNeeded"/>
+<fmt:message key="message.activationSuccess" var="activationSuccess"/>
 
 <t:pagewrapper title="${authorizationTitle}">
     <jsp:attribute name="pagebody">
@@ -18,7 +19,13 @@
             <c:if test="${param.error != null}">
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong><fmt:message key="message.error"/></strong> <fmt:message key="message.badCredentials"/>
+                    <strong><fmt:message key="message.error"/></strong> ${SPRING_SECURITY_LAST_EXCEPTION} <%--<fmt:message key="message.badCredentials"/>--%>
+                </div>
+            </c:if>
+            <c:if test="${param.activate == true}">
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    ${activationSuccess}
                 </div>
             </c:if>
         </div>

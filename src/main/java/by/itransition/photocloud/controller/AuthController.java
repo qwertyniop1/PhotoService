@@ -48,26 +48,22 @@ public class AuthController {
     @PostMapping("/register")
     public String registerNewUser(@ModelAttribute("user") @Valid UserDto user, BindingResult result,
                                   WebRequest request, Errors errors, Model model) {
-        User registeredUser = new User();
-        if (!result.hasErrors()) {
-            registeredUser = createUser(user, result);
-            try {
-                String appUrl = request.getContextPath();
-                eventPublisher.publishEvent(new OnRegistrationCompleteEvent
-                        (registeredUser, appUrl, request.getLocale()));
-            } catch (Exception ex) {
-                System.out.println("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL\nLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOl\n\n\n\n");
-                System.out.println(ex);
-                ex.printStackTrace();
-
-
-                return "auth/emailError";
-            }
-        }
-        if (registeredUser == null) {
-            result.rejectValue("email", "Loh pizdets email lalka"); // TODO messages in separate file
-        }
         model.addAttribute(user);
+        if (result.hasErrors()) {
+            return "auth/registration";
+        }
+        User registeredUser = createUser(user, result);
+        if (registeredUser == null) {
+            result.rejectValue("email", "message.userExist");
+            return "auth/registration";
+        }
+        try {
+            String appUrl = request.getContextPath();
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent
+                    (registeredUser, appUrl, request.getLocale()));
+        } catch (Exception ex) {
+            return "auth/emailError";
+        }
         return result.hasErrors() ? "auth/registration" : "auth/success";
     }
 
@@ -87,7 +83,7 @@ public class AuthController {
         }
         user.setEnabled(true);
         service.saveRegisteredUser(user);
-        return "redirect:/login?lang=" + locale.getLanguage();
+        return "redirect:/login?activate=true&lang=" + locale.getLanguage();
     }
 
     private User createUser(UserDto user, BindingResult result) {

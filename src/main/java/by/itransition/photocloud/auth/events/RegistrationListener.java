@@ -8,8 +8,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.UUID;
 
 @Component
@@ -29,10 +32,14 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
-        confirmRegistration(event);
+        try {
+            confirmRegistration(event);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void confirmRegistration(OnRegistrationCompleteEvent event) {
+    private void confirmRegistration(OnRegistrationCompleteEvent event) throws MessagingException {
         User user = event.getUser();
         String token = UUID.randomUUID().toString();
         userService.createVerificationToken(user, token);
@@ -41,11 +48,13 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         String confirmationUrl = event.getApplicationUrl()
                 + "/registration-confirm?confirm_token=" + token;
         String message = messages.getMessage("message.registrationConfirm", null, event.getLocale());
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(recipientAddress);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message + " rn" + "http://localhost:8080" + confirmationUrl);
-        mailMessage.setFrom(environment.getProperty("support.email"));
-        mailSender.send(mailMessage);
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        helper.setTo(recipientAddress);
+        helper.setSubject(subject);
+        helper.setText(message + "<html><body><br><a href='" + "http://localhost:8080" + confirmationUrl
+                + "'>http://localhost:8080" + confirmationUrl + "</a></body></html>", true);
+        helper.setFrom(environment.getProperty("support.email"));
+        mailSender.send(mimeMessage);
     }
 }

@@ -14,10 +14,12 @@
 
 <t:pagewrapper title="${registrationTitle}">
     <jsp:attribute name="pagebody">
-        <h3>${registrationTitle}</h3>
+        <div class="page-header">
+            <h1>${registrationTitle}</h1>
+        </div>
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
                 <sf:form modelAttribute="user" method="post">
                     <div class="form-group">
                         <sf:label path="firstName" title="${nameLabel}" for="firstName">${nameLabel}</sf:label>
@@ -49,7 +51,7 @@
                     <input type="submit" value="${registerLabel}" class="btn btn-default center-block"/>
                 </sf:form>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-3"></div>
         </div>
     </jsp:attribute>
     <jsp:attribute name="pagescripts">
