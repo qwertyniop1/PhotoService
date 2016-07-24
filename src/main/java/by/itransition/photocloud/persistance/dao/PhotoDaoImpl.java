@@ -1,5 +1,6 @@
 package by.itransition.photocloud.persistance.dao;
 
+import by.itransition.photocloud.persistance.model.Album;
 import by.itransition.photocloud.persistance.model.Photo;
 import by.itransition.photocloud.persistance.model.User;
 import org.hibernate.SessionFactory;
@@ -31,6 +32,15 @@ public class PhotoDaoImpl implements PhotoDao {
                 .setParameter(0, photoId)
                 .list();
         return photos.size() > 0 ? photos.get(0) : null;
+    }
+
+    @Override
+    public List<Photo> findByAlbum(int albumId) {
+        List<Photo> photos = sessionFactory.getCurrentSession()
+                .createQuery("from Photo photo join photo.albums album where album.id=?")
+                .setParameter(0, albumId)
+                .list();
+        return photos.size() > 0 ? photos : null;
     }
 
     @Override

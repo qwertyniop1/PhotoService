@@ -2,6 +2,8 @@ package by.itransition.photocloud.persistance.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "photos", catalog = "auth")
@@ -23,6 +25,9 @@ public class Photo {
 
     @Column(name = "func")
     private boolean reserved;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "photos")
+    private Set<Album> albums = new HashSet<>(0);
 
     public Photo() {
     }
@@ -79,6 +84,14 @@ public class Photo {
 
     public void setReserved(boolean reserved) {
         this.reserved = reserved;
+    }
+
+    public Set<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(Set<Album> albums) {
+        this.albums = albums;
     }
 
     @Override

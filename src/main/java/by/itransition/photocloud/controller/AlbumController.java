@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,6 +20,8 @@ public class AlbumController {
 
     @GetMapping
     public String index(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("albumList", albumService.getUserAlbums(user.getUsername()));
         return "albums/index";
     }
 
@@ -27,6 +30,12 @@ public class AlbumController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         albumService.create(name, user.getUsername());
         return "redirect:/albums";
+    }
+
+    @GetMapping("/{id}")
+    public String edit(@PathVariable int id, Model model) {
+        model.addAttribute("albumList", albumService.getPhotos(id));
+        return "albums/index";
     }
 
     @GetMapping("/show")

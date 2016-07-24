@@ -2,6 +2,7 @@ package by.itransition.photocloud.persistance.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,7 +20,11 @@ public class Album {
     @JoinColumn(name = "user_email", nullable = false)
     private User user;
 
-    //private Set<Photo> photos;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "album_photo", catalog = "auth",
+            joinColumns = {@JoinColumn(name = "id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "photo_id", nullable = false)})
+    private Set<Photo> photos = new HashSet<>(0);
 
     @Column(name = "create_date", nullable = false)
     private Date date;
@@ -82,6 +87,14 @@ public class Album {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<Photo> photos) {
+        this.photos = photos;
     }
 
     @Override
