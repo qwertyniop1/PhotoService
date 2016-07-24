@@ -13,7 +13,7 @@
               <canvas id="main-canvas" width="800" height="600" style="border: 1px solid rgb(0, 0, 0); margin: 20px; "></canvas>
           </div>
           <div class="col-md-3">
-              <form class="image-tools" style="margin-top: 50px;">
+              <form class="image-tools" action="<c:url value="/photo/edit"/> " style="margin-top: 50px;">
                   <div class="checkbox">
                       <label>
                           Яркость
@@ -106,7 +106,7 @@
 
             var mainImage;
 
-            fabric.Image.fromURL('https://pbs.twimg.com/profile_images/660946436801101824/niM7azZS.jpg', function(image) {
+            fabric.Image.fromURL('http://res.cloudinary.com/itraphotocloud/image/upload/${photo_id}.jpg', function(image) {
                 mainImage = image;
                 canvas.add(mainImage);
             }, {crossOrigin: 'anonymous'});

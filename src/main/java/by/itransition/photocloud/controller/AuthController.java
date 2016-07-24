@@ -1,10 +1,10 @@
 package by.itransition.photocloud.controller;
 
-import by.itransition.photocloud.auth.dto.UserDto;
-import by.itransition.photocloud.auth.events.OnRegistrationCompleteEvent;
-import by.itransition.photocloud.auth.model.User;
-import by.itransition.photocloud.auth.model.VerificationToken;
-import by.itransition.photocloud.auth.service.IUserService;
+import by.itransition.photocloud.persistance.dto.UserDto;
+import by.itransition.photocloud.events.OnRegistrationCompleteEvent;
+import by.itransition.photocloud.persistance.model.User;
+import by.itransition.photocloud.persistance.model.VerificationToken;
+import by.itransition.photocloud.service.IUserService;
 import by.itransition.photocloud.validators.EmailExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -88,7 +88,7 @@ public class AuthController {
 
     @GetMapping("/wrong-user")
     public String wrongUser(Model model) {
-        return "auth/wrongUser"; // TODO problem with encoding message
+        return "auth/wrongUser"; // TODO problem with encoding message and user name
     }
 
     private User createUser(UserDto user, BindingResult result) {

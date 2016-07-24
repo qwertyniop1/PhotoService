@@ -1,6 +1,6 @@
 package by.itransition.photocloud.validators;
 
-import by.itransition.photocloud.auth.dto.UserDto;
+import by.itransition.photocloud.persistance.dto.UserDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -56,8 +56,18 @@
     <jsp:attribute name="styles">
         <spring:url value="/resources/css/bootstrap.css" var="bootstrap"/>
         <spring:url value="/resources/css/modern-business.css" var="startertemplate"/>
+        <spring:url value="/resources/css/dropzone.css" var="dropzonestyle"/>
+        <spring:url value="/resources/css/basic.css" var="dropzonebasic"/>
+        <%--extract to enother--%>
+        <spring:url value="/resources/css/photo.css" var="photoStyle"/>
+
+
         <link href="${bootstrap}" rel="stylesheet" />
         <link href="${startertemplate}" rel="stylesheet" />
+        <%--<link href="${dropzonebasic}" rel="stylesheet" />--%>
+        <link href="${dropzonestyle}" rel="stylesheet" />
+        <link href="${photoStyle}" rel="stylesheet" />
+
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <!-- jQuery -->

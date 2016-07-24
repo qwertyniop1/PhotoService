@@ -7,7 +7,17 @@
 
 <fmt:message key="label.main" var="title"/>
 <fmt:message key="message.welcome" var="welcome"/>
-
+<fmt:message key="message.jumbotron.upload" var="upload" scope="page"/>
+<fmt:message key="message.jumbotron.edit" var="edit" scope="page"/>
+<fmt:message key="message.jumbotron.show" var="show" scope="page"/>
+<fmt:message key="message.register" var="register" scope="page"/>
+<fmt:message key="message.registrationTagline" var="registerTagline" scope="page"/>
+<fmt:message key="message.main.albums" var="albumsText" scope="page"/>
+<fmt:message key="message.main.edit" var="editText" scope="page"/>
+<fmt:message key="message.main.cloud" var="cloudText" scope="page"/>
+<fmt:message key="message.main.albumsTitle" var="albumsTitle" scope="page"/>
+<fmt:message key="message.main.editTitle" var="editTitle" scope="page"/>
+<fmt:message key="message.main.cloudTitle" var="cloudTitle" scope="page"/>
 
 <t:pagewrapper title="${title}">
     <jsp:attribute name="jumbotron">
@@ -23,21 +33,21 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
             <div class="item active">
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide One');"></div>
+                <div class="fill" style="background-image:url('http://wpuploads.appadvice.com/wp-content/uploads/2016/01/photographer-1080016_1920.jpg');"></div>
                 <div class="carousel-caption">
-                    <h2>Caption 1</h2>
+                    <h2>${upload}</h2>
                 </div>
             </div>
             <div class="item">
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
+                <div class="fill" style="background-image:url('https://www.karltaylorphotography.com/media/wysiwyg/home-main-image-lighter_1.jpg');"></div>
                 <div class="carousel-caption">
-                    <h2>Caption 2</h2>
+                    <h2>${edit}</h2>
                 </div>
             </div>
             <div class="item">
-                <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
+                <div class="fill" style="background-image:url('http://www.shapecollage.com/blog/wp-content/uploads/2011/01/collage-valentine.jpg');"></div>
                 <div class="carousel-caption">
-                    <h2>Caption 3</h2>
+                    <h2>${show}</h2>
                 </div>
             </div>
         </div>
@@ -62,10 +72,10 @@
           <div class="col-md-4">
               <div class="panel panel-default">
                   <div class="panel-heading">
-                      <h4><i class="fa fa-fw fa-check"></i> Bootstrap v3.2.0</h4>
+                      <h4><i class="fa fa-fw fa-check"></i>${cloudTitle}</h4>
                   </div>
                   <div class="panel-body">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+                      <p>${cloudText}</p>
                       <a href="#" class="btn btn-default">Learn More</a>
                   </div>
               </div>
@@ -73,10 +83,10 @@
           <div class="col-md-4">
               <div class="panel panel-default">
                   <div class="panel-heading">
-                      <h4><i class="fa fa-fw fa-gift"></i> Free &amp; Open Source</h4>
+                      <h4><i class="fa fa-fw fa-gift"></i>${albumsTitle}</h4>
                   </div>
                   <div class="panel-body">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+                      <p>${albumsText}</p>
                       <a href="#" class="btn btn-default">Learn More</a>
                   </div>
               </div>
@@ -84,10 +94,10 @@
           <div class="col-md-4">
               <div class="panel panel-default">
                   <div class="panel-heading">
-                      <h4><i class="fa fa-fw fa-compass"></i> Easy to Use</h4>
+                      <h4><i class="fa fa-fw fa-compass"></i>${editTitle}</h4>
                   </div>
                   <div class="panel-body">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
+                      <p>${editText}</p>
                       <a href="#" class="btn btn-default">Learn More</a>
                   </div>
               </div>
@@ -100,10 +110,10 @@
         <div class="well">
             <div class="row">
                 <div class="col-md-8">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+                    <p>${registerTagline}</p>
                 </div>
                 <div class="col-md-4">
-                    <a class="btn btn-lg btn-default btn-block" href="#">Call to Action</a>
+                    <a class="btn btn-lg btn-default btn-block" href="#">${register}</a>
                 </div>
             </div>
         </div>

@@ -48,7 +48,7 @@ public class ApplicationConfig {
     @Bean
     public SessionFactory sessionFactory() {
         LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
-        builder.scanPackages("by.itransition.photocloud.auth.model").addProperties(getHibernateProperties());
+        builder.scanPackages("by.itransition.photocloud.persistance.model").addProperties(getHibernateProperties());
         return builder.buildSessionFactory();
     }
 
