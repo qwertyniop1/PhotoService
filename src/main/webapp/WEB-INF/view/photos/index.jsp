@@ -27,8 +27,6 @@
             <div class="col-md-1"></div>
         </div>
 
-        <c:set var="count" value="0" scope="page"/>
-
         <c:if test="${empty photoList}">
             <div class="panel panel-warning">
                 <div class="panel-body" style="text-align: center;">
@@ -36,45 +34,36 @@
                 </div>
             </div>
         </c:if>
-        <c:forEach items="${photoList}" var="photo">
-            <c:if test="${count % 4 == 0}">
-                <div class="row">
-            </c:if>
-            <div class="col-md-3">
-               <div class="thumbnail">
-                   <div class="caption">
-                       <%--<h4>Thumbnail Headline</h4>--%>
-                       <%--<p>short thumbnail description</p>--%>
-                       <div class="toolbar">
-                            <a href="<c:url value="/photo/edit">
-                                <c:param name="photo_id" value="${photo.id}"/>
-                            </c:url>" class="btn btn-info" rel="tooltip" title="${editLabel}">
-                               <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                           </a>
-                           <a href="#" data-photoid="${photo.id}" class="btn btn-danger" rel="tooltip" title="${deleteLabel}">
-                               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                           </a>
+        <div class="flex-container">
+            <c:forEach items="${photoList}" var="photo">
+                   <div class="thumbnail">
+                       <div class="caption">
+                           <div class="toolbar">
+                                <a href="<c:url value="/photo/edit">
+                                    <c:param name="photo_id" value="${photo.id}"/>
+                                </c:url>" class="btn btn-info" rel="tooltip" title="${editLabel}">
+                                   <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                               </a>
+                               <a href="#" data-photoid="${photo.id}" class="btn btn-danger" rel="tooltip" title="${deleteLabel}">
+                                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                               </a>
+                           </div>
                        </div>
-                   </div>
-                   <div class="deleted">
-                       <h4>${deletedPhoto}</h4>
-                       <p>${revivePhoto}</p>
-                       <div class="toolbar">
-                           <a href="#" data-photoid="${photo.id}" class="btn btn-info" rel="tooltip" title="${restoreLabel}">
-                               <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-                           </a>
+                       <div class="deleted">
+                           <h4>${deletedPhoto}</h4>
+                           <p>${revivePhoto}</p>
+                           <div class="toolbar">
+                               <a href="#" data-photoid="${photo.id}" class="btn btn-info" rel="tooltip" title="${restoreLabel}">
+                                   <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                               </a>
+                           </div>
                        </div>
+                       <a class="fancybox" data-fancybox-title="<a target='_blank' href='http://res.cloudinary.com/itraphotocloud/image/upload/${photo.id}.jpg'><span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span></a>" rel="group" href="http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/${photo.id}.jpg">
+                            <cl:image src="${photo.id}" width="150" height="150" crop="thumb" format="jpg"/>
+                       </a>
                    </div>
-                   <a class="fancybox" data-fancybox-title="<a target='_blank' href='http://res.cloudinary.com/itraphotocloud/image/upload/${photo.id}.jpg'><span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span></a>" rel="group" href="http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/${photo.id}.jpg">
-                        <cl:image src="${photo.id}" width="150" height="150" crop="thumb" format="jpg"/>
-                   </a>
-               </div>
-            </div>
-            <c:set var="count" value="${count + 1}" scope="page"/>
-            <c:if test="${count % 4 == 0}">
-                </div>
-            </c:if>
-        </c:forEach>
+            </c:forEach>
+        </div>
 
     </jsp:attribute>
     <jsp:attribute name="pagescripts">
@@ -120,6 +109,30 @@
                                                 ${_csrf.parameterName}: "${_csrf.token}"},
                         function (data, status) {
                             console.log(data);
+                            newPhoto =  "<div class='thumbnail'>" +
+                                    "<div class='caption'>" +
+                                    "<div class='toolbar'>" +
+                                    "<a href='/photo/edit?photo_id?" + response.public_id + "' class='btn btn-info' rel='tooltip' title='${editLabel}'>" +
+                                    "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>" +
+                                    "</a>" +
+                                    "<a href='#' data-photoid='" + response.public_id + "' class='btn btn-danger' rel='tooltip' title='${deleteLabel}'>" +
+                                    "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>" +
+                                    "</a>" +
+                                    "</div>" +
+                                    "</div>" +
+                                    "<div class='deleted'>" +
+                                    "<h4>${deletedPhoto}</h4>" +
+                                    "<p>${revivePhoto}</p>" +
+                                    "<div class='toolbar'>" +
+                                    "<a href='#' data-photoid='" + response.public_id + "' class='btn btn-info' rel='tooltip' title='${restoreLabel}'>" +
+                                    "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
+                                    "</a>" +
+                                    "</div>" +
+                                    "</div>" +
+                                    "<a class='fancybox' data-fancybox-title='<a target='_blank' href='http://res.cloudinary.com/itraphotocloud/image/upload/${photo.id}.jpg'><span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span></a>' rel='group' href='http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/${photo.id}.jpg'>" +
+                                    "<img src='http://res.cloudinary.com/itraphotocloud/image/upload/c_thumb,h_150,w_150/" + response.public_id + ".jpg'>" +
+                                    "</a>" +
+                                    "</div>";
                         });
                     }
                 };

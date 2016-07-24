@@ -61,6 +61,7 @@
         <jsp:invoke fragment="jumbotron" />
         <div class="container">
             <jsp:invoke fragment="pagebody"/>
+            <br>
             <hr>
             <footer>
                 <div class="row">
