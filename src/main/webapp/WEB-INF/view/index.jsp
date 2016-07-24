@@ -3,6 +3,8 @@
 <%--<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>--%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <fmt:setBundle basename="messages" />
 
 <fmt:message key="label.main" var="title"/>
@@ -18,6 +20,8 @@
 <fmt:message key="message.main.albumsTitle" var="albumsTitle" scope="page"/>
 <fmt:message key="message.main.editTitle" var="editTitle" scope="page"/>
 <fmt:message key="message.main.cloudTitle" var="cloudTitle" scope="page"/>
+<fmt:message key="message.learn" var="moreButton" scope="page"/>
+<fmt:message key="label.photoTitle" var="myPhoto" scope="page"/>
 
 <t:pagewrapper title="${title}">
     <jsp:attribute name="jumbotron">
@@ -69,6 +73,8 @@
                   ${welcome}
               </h1>
           </div>
+        </div>
+        <div class="row equal">
           <div class="col-md-4">
               <div class="panel panel-default">
                   <div class="panel-heading">
@@ -76,7 +82,7 @@
                   </div>
                   <div class="panel-body">
                       <p>${cloudText}</p>
-                      <a href="#" class="btn btn-default">Learn More</a>
+                      <a href="<c:url value="/photo"/>" class="btn btn-default">${moreButton}</a>
                   </div>
               </div>
           </div>
@@ -87,7 +93,7 @@
                   </div>
                   <div class="panel-body">
                       <p>${albumsText}</p>
-                      <a href="#" class="btn btn-default">Learn More</a>
+                      <a href="<c:url value="/photo/albums"/>" class="btn btn-default">${moreButton}</a>
                   </div>
               </div>
           </div>
@@ -98,7 +104,7 @@
                   </div>
                   <div class="panel-body">
                       <p>${editText}</p>
-                      <a href="#" class="btn btn-default">Learn More</a>
+                      <a href="<c:url value="/photo"/>" class="btn btn-default">${moreButton}</a>
                   </div>
               </div>
           </div>
@@ -113,7 +119,12 @@
                     <p>${registerTagline}</p>
                 </div>
                 <div class="col-md-4">
-                    <a class="btn btn-lg btn-default btn-block" href="#">${register}</a>
+                    <sec:authorize access="isAnonymous()">
+                        <a class="btn btn-lg btn-primary btn-block" href="<c:url value="/register"/>">${register}</a>
+                    </sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        <a class="btn btn-lg btn-primary btn-block" href="<c:url value="/photo"/>">${myPhoto}</a>
+                    </sec:authorize>
                 </div>
             </div>
         </div>
