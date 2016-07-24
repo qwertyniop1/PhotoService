@@ -17,7 +17,7 @@ public class PhotoDaoImpl implements PhotoDao {
     @Override
     public List<Photo> findByUser(User user) {
         List<Photo> photos = sessionFactory.getCurrentSession()
-                .createQuery("from Photo where user=? and deleted=?")
+                .createQuery("from Photo where user=? and deleted=? order by upload_date")
                 .setParameter(0, user)
                 .setParameter(1, false)
                 .list();

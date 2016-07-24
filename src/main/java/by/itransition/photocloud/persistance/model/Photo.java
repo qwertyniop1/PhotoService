@@ -1,6 +1,7 @@
 package by.itransition.photocloud.persistance.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "photos", catalog = "auth")
@@ -13,6 +14,9 @@ public class Photo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_email", nullable = false)
     private User user;
+
+    @Column(name = "upload_date", nullable = false)
+    private Date uploadDate;
 
     @Column
     private boolean deleted;
@@ -29,9 +33,10 @@ public class Photo {
         this.deleted = deleted;
     }
 
-    public Photo(String id, User user, boolean deleted, boolean reserved) {
+    public Photo(String id, User user, Date uploadDate, boolean deleted, boolean reserved) {
         this.id = id;
         this.user = user;
+        this.uploadDate = uploadDate;
         this.deleted = deleted;
         this.reserved = reserved;
     }
@@ -50,6 +55,14 @@ public class Photo {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(Date uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public boolean isDeleted() {

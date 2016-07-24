@@ -112,7 +112,7 @@
                             newPhoto =  "<div class='thumbnail'>" +
                                     "<div class='caption'>" +
                                     "<div class='toolbar'>" +
-                                    "<a href='/photo/edit?photo_id?" + response.public_id + "' class='btn btn-info' rel='tooltip' title='${editLabel}'>" +
+                                    "<a href='/photo/edit?photo_id=" + response.public_id + "' class='btn btn-info' rel='tooltip' title='${editLabel}'>" +
                                     "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>" +
                                     "</a>" +
                                     "<a href='#' data-photoid='" + response.public_id + "' class='btn btn-danger' rel='tooltip' title='${deleteLabel}'>" +
@@ -129,10 +129,19 @@
                                     "</a>" +
                                     "</div>" +
                                     "</div>" +
-                                    "<a class='fancybox' data-fancybox-title='<a target='_blank' href='http://res.cloudinary.com/itraphotocloud/image/upload/${photo.id}.jpg'><span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span></a>' rel='group' href='http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/${photo.id}.jpg'>" +
+                                    "<a class='fancybox' data-fancybox-title=\"<a target='_blank' href='http://res.cloudinary.com/itraphotocloud/image/upload/" + response.public_id + ".jpg'><span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span></a>\" rel='group' href='http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/" + response.public_id + ".jpg'>" +
                                     "<img src='http://res.cloudinary.com/itraphotocloud/image/upload/c_thumb,h_150,w_150/" + response.public_id + ".jpg'>" +
                                     "</a>" +
                                     "</div>";
+                            $('.flex-container').append(newPhoto);
+                            $('.flex-container').children('.thumbnail:last').hover(
+                                    function(){
+                                        $(this).find('.caption').slideDown(250); //.fadeIn(250)
+                                    },
+                                    function(){
+                                        $(this).find('.caption').slideUp(250); //.fadeOut(205)
+                                    }
+                            );
                         });
                     }
                 };

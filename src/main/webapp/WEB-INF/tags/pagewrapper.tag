@@ -7,6 +7,7 @@
 <%@attribute name="jumbotron" fragment="true" %>
 <%@attribute name="pagebody" fragment="true" %>
 <%@attribute name="pagescripts" fragment="true" %>
+<%@attribute name="pagestyles" fragment="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <fmt:setBundle basename="messages" />
 
@@ -37,7 +38,7 @@
                             <a href="<c:url value="/photo"/> ">${photoLabel}</a>
                         </li>
                         <li>
-                            <a href="<c:url value="/photo/albums"/>">${albumLabel}</a>
+                            <a href="<c:url value="/albums/show"/>">${albumLabel}</a>
                         </li>
                         <%--<li>--%>
                             <%--<a href="contact.html">Contact</a>--%>
@@ -80,13 +81,12 @@
         <%--extract to enother--%>
         <spring:url value="/resources/css/photo.css" var="photoStyle"/>
 
-
         <link href="${bootstrap}" rel="stylesheet" />
         <link href="${startertemplate}" rel="stylesheet" />
         <%--<link href="${dropzonebasic}" rel="stylesheet" />--%>
         <link href="${dropzonestyle}" rel="stylesheet" />
         <link href="${photoStyle}" rel="stylesheet" />
-
+        <jsp:invoke fragment="pagestyles"/>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <!-- jQuery -->
