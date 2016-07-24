@@ -16,6 +16,15 @@ public class AlbumDaoImpl implements AlbumDao {
     private SessionFactory sessionFactory;
 
     @Override
+    public Album findById(int id) {
+        List<Album> albums = sessionFactory.getCurrentSession()
+                .createQuery("from Album where id=?")
+                .setParameter(0, id)
+                .list();
+        return albums.size() > 0 ? albums.get(0) : null;
+    }
+
+    @Override
     public List<Album> findByUser(User user) {
         List<Album> albums = sessionFactory.getCurrentSession()
                 .createQuery("from Album where user=? and deleted=? order by date")

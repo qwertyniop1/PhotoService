@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface AlbumDao {
 
+    Album findById(int id);
+
     List<Album> findByUser(User user);
 
     void save(Album album);

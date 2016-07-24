@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Transactional
 @Service
@@ -27,6 +28,15 @@ public class AlbumService implements IAlbumService{
     @Override
     public void create(String name, String email) {
         albumRepository.save(new Album(name, userRepository.findByEmail(email), false));
+    }
+
+    @Override
+    public void addPhoto(int id, String photoId) {
+        Album album = albumRepository.findById(id);
+        Set<Photo> photos = album.getPhotos();
+        photos.add(photoRepository.findById(photoId));
+        album.setPhotos(photos);
+        albumRepository.save(album);
     }
 
     @Override

@@ -38,6 +38,12 @@ public class AlbumController {
         return "albums/index";
     }
 
+    @GetMapping("/add")
+    public String addPhoto(@RequestParam("photo") String photoId, @RequestParam int id, Model model) {
+        albumService.addPhoto(id, photoId);
+        return "redirect:/";
+    }
+
     @GetMapping("/show")
     public String slideshow(Model model) {
         return "photos/slideshow";

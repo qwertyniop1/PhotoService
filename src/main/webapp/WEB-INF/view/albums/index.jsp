@@ -9,8 +9,8 @@
 <t:pagewrapper title="${title}">
     <jsp:attribute name="pagebody">
         <c:forEach items="${albumList}" var="album">
-            ${album.name}<br>
-            ${album.id}<br>
+            <%--<c:catch var="exception">${album.name}</c:catch>--%>
+            ${album}<br>
         </c:forEach>
     </jsp:attribute>
 </t:pagewrapper>
