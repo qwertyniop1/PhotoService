@@ -30,7 +30,18 @@ public class PhotoService implements IPhotoService {
     }
 
     @Override
-    public void deletePhoto(String email, String photoId) {
+    public void deletePhoto(String photoId) {
+        Photo photo = photoRepository.findById(photoId);
+        if (photo == null) return;
+        photo.setDeleted(true);
+        photoRepository.save(photo);
+    }
 
+    @Override
+    public void restore(String photoId) {
+        Photo photo = photoRepository.findById(photoId);
+        if (photo == null) return;
+        photo.setDeleted(false);
+        photoRepository.save(photo);
     }
 }

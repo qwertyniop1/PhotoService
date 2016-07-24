@@ -13,6 +13,8 @@
 <fmt:message key="message.authorizationNeeded" var="authorizationNeeded"/>
 <fmt:message key="message.activationSuccess" var="activationSuccess"/>
 
+<c:set var="localeCode" value="${pageContext.response.locale}" scope="page"/>
+
 <t:pagewrapper title="${authorizationTitle}">
     <jsp:attribute name="pagebody">
         <div class="row" style="margin-top: 20px">
@@ -56,7 +58,7 @@
     </jsp:attribute>
     <jsp:attribute name="pagescripts">
         <script src="<c:url value="/resources/js/jquery.validate.min.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/messages_ru.min.js" />" type="text/javascript"></script>
+        <script src="<c:url value="/resources/js/messages_${localeCode}.min.js" />" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function () {
 
@@ -78,7 +80,7 @@
                     success: function (element) {
                         element.addClass('valid')
                                 .closest('.form-group').removeClass('has-error').addClass('has-success');
-//                        element.closest('.error').css('display', 'none');
+                        element.remove();
                     }
                 });
 

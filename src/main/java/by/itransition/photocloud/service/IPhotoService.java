@@ -11,6 +11,7 @@ public interface IPhotoService {
 
     List<Photo> getUserPhotos(String email);
 
-    void deletePhoto(String email, String photoId);
+    void deletePhoto(String photoId);
 
+    void restore(String photoId);
 }

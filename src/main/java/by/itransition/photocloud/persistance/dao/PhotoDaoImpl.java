@@ -17,16 +17,35 @@ public class PhotoDaoImpl implements PhotoDao {
     @Override
     public List<Photo> findByUser(User user) {
         List<Photo> photos = sessionFactory.getCurrentSession()
-                .createQuery("from Photo where user=?")
+                .createQuery("from Photo where user=? and deleted=?")
                 .setParameter(0, user)
+                .setParameter(1, false)
                 .list();
         return photos.size() > 0 ? photos : null;
     }
 
     @Override
+    public Photo findById(String photoId) {
+        List<Photo> photos = sessionFactory.getCurrentSession()
+                .createQuery("from Photo where id=?")
+                .setParameter(0, photoId)
+                .list();
+        return photos.size() > 0 ? photos.get(0) : null;
+    }
+
+    @Override
     public void save(Photo photo) {
         try {
-            sessionFactory.getCurrentSession().save(photo);
+            sessionFactory.getCurrentSession().saveOrUpdate(photo);
+        } catch (Exception ex) {
+
+        }
+    }
+
+    @Override
+    public void delete(Photo photo) {
+        try {
+            sessionFactory.getCurrentSession().delete(photo);
         } catch (Exception ex) {
 
         }

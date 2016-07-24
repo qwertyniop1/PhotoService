@@ -8,6 +8,11 @@
 <fmt:message key="label.photoTitle" var="title"/>
 <fmt:message key="label.edit" var="editLabel"/>
 <fmt:message key="label.delete" var="deleteLabel"/>
+<fmt:message key="label.original" var="original"/>
+<fmt:message key="label.restore" var="restoreLabel"/>
+<fmt:message key="message.nophotos" var="noPhoto"/>
+<fmt:message key="message.deleted" var="deletedPhoto"/>
+<fmt:message key="message.cancelDelete" var="revivePhoto"/>
 
 <t:pagewrapper title="${title}">
     <jsp:attribute name="pagebody">
@@ -24,6 +29,13 @@
 
         <c:set var="count" value="0" scope="page"/>
 
+        <c:if test="${empty photoList}">
+            <div class="panel panel-warning">
+                <div class="panel-body" style="text-align: center;">
+                    <strong>${noPhoto}</strong>
+                </div>
+            </div>
+        </c:if>
         <c:forEach items="${photoList}" var="photo">
             <c:if test="${count % 4 == 0}">
                 <div class="row">
@@ -39,12 +51,21 @@
                             </c:url>" class="btn btn-info" rel="tooltip" title="${editLabel}">
                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                            </a>
-                           <a href="/delete" class="btn btn-danger" rel="tooltip" title="${deleteLabel}">
+                           <a href="#" data-photoid="${photo.id}" class="btn btn-danger" rel="tooltip" title="${deleteLabel}">
                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                            </a>
                        </div>
                    </div>
-                   <a class="fancybox" rel="group" href="http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/${photo.id}.jpg">
+                   <div class="deleted">
+                       <h4>${deletedPhoto}</h4>
+                       <p>${revivePhoto}</p>
+                       <div class="toolbar">
+                           <a href="#" data-photoid="${photo.id}" class="btn btn-info" rel="tooltip" title="${restoreLabel}">
+                               <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                           </a>
+                       </div>
+                   </div>
+                   <a class="fancybox" data-fancybox-title="<a target='_blank' href='http://res.cloudinary.com/itraphotocloud/image/upload/${photo.id}.jpg'><span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span></a>" rel="group" href="http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/${photo.id}.jpg">
                         <cl:image src="${photo.id}" width="150" height="150" crop="thumb" format="jpg"/>
                    </a>
                </div>
@@ -99,7 +120,6 @@
                                                 ${_csrf.parameterName}: "${_csrf.token}"},
                         function (data, status) {
                             console.log(data);
-                            console.log(status);
                         });
                     }
                 };
@@ -114,6 +134,35 @@
                             $(this).find('.caption').slideUp(250); //.fadeOut(205)
                         }
                 );
+
+                // delete photo
+                $('.btn-danger').on('click', function () {
+                    var button = $(this);
+                    $.post('photo/delete', {photo_id: button.data('photoid'),
+                    ${_csrf.parameterName}: "${_csrf.token}"},
+                    function (data, status) {
+                        var thumb = button.closest('.thumbnail');
+                        var caption = thumb.find('.caption');
+                        caption.hide();
+                        caption.removeClass('caption');
+                        caption.addClass('caption-del');
+                        thumb.find('.deleted').fadeIn(250);
+                    });
+                });
+
+                // restore photo
+                $('.btn-info').on('click', function () {
+                    var button = $(this);
+                    $.post('photo/restore', {photo_id: button.data('photoid'),
+                    ${_csrf.parameterName}: "${_csrf.token}"},
+                    function (data, status) {
+                        var thumb = button.closest('.thumbnail');
+                        thumb.find('.deleted').fadeOut(250);
+                        var caption = thumb.find('.caption-del');
+                        caption.removeClass('caption-del');
+                        caption.addClass('caption');
+                    });
+                });
 
             });
 

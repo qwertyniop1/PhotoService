@@ -7,6 +7,13 @@
 <%@attribute name="jumbotron" fragment="true" %>
 <%@attribute name="pagebody" fragment="true" %>
 <%@attribute name="pagescripts" fragment="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<fmt:setBundle basename="messages" />
+
+<fmt:message key="label.signIn" var="signInLabel" scope="page"/>
+<fmt:message key="label.logout" var="logoutLabel" scope="page"/>
+<fmt:message key="label.photo" var="photoLabel" scope="page"/>
+<fmt:message key="label.albums" var="albumLabel" scope="page"/>
 
 <t:basewrapper title="${title} - Itransition Photo Cloud">
     <jsp:attribute name="navigation">
@@ -20,14 +27,25 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
+                    <sec:authorize access="isAnonymous()">
                         <li>
-                            <sec:authorize access="isAnonymous()">
-                                <a href="<c:url value="/login" />">Войти</a>
-                            </sec:authorize>
-                            <sec:authorize access="isAuthenticated()">
-                                <a href="#" onclick="$('#logout').submit()">Выйти</a>
-                            </sec:authorize>
+                            <a href="<c:url value="/login" />">${signInLabel}</a>
                         </li>
+                    </sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        <li>
+                            <a href="<c:url value="/photo"/> ">${photoLabel}</a>
+                        </li>
+                        <li>
+                            <a href="<c:url value="/photo/albums"/>">${albumLabel}</a>
+                        </li>
+                        <%--<li>--%>
+                            <%--<a href="contact.html">Contact</a>--%>
+                        <%--</li>--%>
+                        <li>
+                            <a href="#" onclick="$('#logout').submit()">${logoutLabel}</a>
+                        </li>
+                    </sec:authorize>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->

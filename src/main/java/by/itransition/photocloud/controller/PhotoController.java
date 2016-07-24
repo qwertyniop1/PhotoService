@@ -37,11 +37,24 @@ public class PhotoController {
         return "photos/edit";
     }
 
+    // TODO saving to the cloud
     @PostMapping("/edit")
     public String savePhoto(Model model) {
         return "redirect:/photo";
     }
 
+    @PostMapping("/delete")
+    public @ResponseBody
+    String deletePhoto(@RequestParam("photo_id") String photoId, Model model) {
+        photoService.deletePhoto(photoId);
+        return "deleted";
+    }
 
+    @PostMapping("/restore")
+    public @ResponseBody
+    String restorePhoto(@RequestParam("photo_id") String photoId, Model model) {
+        photoService.restore(photoId);
+        return "restored";
+    }
 
 }
