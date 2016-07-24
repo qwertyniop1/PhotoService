@@ -142,6 +142,7 @@
                                         $(this).find('.caption').slideUp(250); //.fadeOut(205)
                                     }
                             );
+                            $('.panel-warning').remove();
                         });
                     }
                 };
