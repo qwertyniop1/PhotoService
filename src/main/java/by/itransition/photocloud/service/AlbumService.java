@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,10 +32,12 @@ public class AlbumService implements IAlbumService{
     }
 
     @Override
-    public void addPhoto(int id, String photoId) {
+    public void addPhoto(int id, String[] photoIds) {
         Album album = albumRepository.findById(id);
-        Set<Photo> photos = album.getPhotos();
-        photos.add(photoRepository.findById(photoId));
+        Set<Photo> photos = new HashSet<>(0);
+        for (String photoId : photoIds) {
+            photos.add(photoRepository.findById(photoId));
+        }
         album.setPhotos(photos);
         albumRepository.save(album);
     }

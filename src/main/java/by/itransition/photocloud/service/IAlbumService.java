@@ -9,7 +9,7 @@ public interface IAlbumService {
 
     void create(String name, String email);
 
-    void addPhoto(int id, String photoId);
+    void addPhoto(int id, String[] photoIds);
 
     List<Album> getUserAlbums(String email);
 

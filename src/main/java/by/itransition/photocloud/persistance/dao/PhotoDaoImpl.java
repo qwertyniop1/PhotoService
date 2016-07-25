@@ -38,8 +38,9 @@ public class PhotoDaoImpl implements PhotoDao {
     public List<Photo> findByAlbum(int albumId) {
         List<Photo> photos = sessionFactory.getCurrentSession()
 //                .createQuery("from Photo photo join photo.albums album where album.id=?")
-                .createQuery("select a from Photo a join a.albums t where t.id=?")
+                .createQuery("select a from Photo a join a.albums t where t.id=? and a.deleted=?")
                 .setParameter(0, albumId)
+                .setParameter(1, false)
                 .list();
         return photos.size() > 0 ? photos : null;
     }

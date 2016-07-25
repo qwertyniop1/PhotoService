@@ -1,15 +1,13 @@
 package by.itransition.photocloud.controller;
 
 import by.itransition.photocloud.service.IAlbumService;
+import by.itransition.photocloud.service.IPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/albums")
@@ -17,6 +15,9 @@ public class AlbumController {
 
     @Autowired
     private IAlbumService albumService;
+
+    @Autowired
+    private IPhotoService photoService;
 
     @GetMapping
     public String index(Model model) {
@@ -26,22 +27,33 @@ public class AlbumController {
     }
 
     @GetMapping("/create")
-    public String create(@RequestParam("album") String name, Model model) {
+    public String createAlbum(Model model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("photoList", photoService.getUserPhotos(user.getUsername()));
+        return "albums/album";
+    }
+
+    @PostMapping("/create")
+    public @ResponseBody
+    String create(@RequestParam("album") String name, Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         albumService.create(name, user.getUsername());
-        return "redirect:/albums";
+        return "created";
     }
 
     @GetMapping("/{id}")
     public String edit(@PathVariable int id, Model model) {
-        model.addAttribute("albumList", albumService.getPhotos(id));
-        return "albums/index";
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("photoList", photoService.getUserPhotos(user.getUsername()));
+        model.addAttribute("albumPhotos", albumService.getPhotos(id));
+        return "albums/album";
     }
 
-    @GetMapping("/add")
-    public String addPhoto(@RequestParam("photo") String photoId, @RequestParam int id, Model model) {
-        albumService.addPhoto(id, photoId);
-        return "redirect:/";
+    @PostMapping("/add")
+    public @ResponseBody
+    String addPhoto(@RequestParam("photo_list[]") String[] photoIds, @RequestParam int id, Model model) {
+        albumService.addPhoto(id, photoIds);
+        return "added";
     }
 
     @GetMapping("/show")

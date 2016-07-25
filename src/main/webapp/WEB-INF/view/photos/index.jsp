@@ -159,6 +159,7 @@
                 );
 
                 // delete photo
+                // TODO add to new elements
                 $('.btn-danger').on('click', function () {
                     var button = $(this);
                     $.post('photo/delete', {photo_id: button.data('photoid'),

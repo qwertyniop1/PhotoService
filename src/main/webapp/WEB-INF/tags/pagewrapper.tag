@@ -38,7 +38,7 @@
                             <a href="<c:url value="/photo"/> ">${photoLabel}</a>
                         </li>
                         <li>
-                            <a href="<c:url value="/albums/show"/>">${albumLabel}</a>
+                            <a href="<c:url value="/albums"/>">${albumLabel}</a>
                         </li>
                         <%--<li>--%>
                             <%--<a href="contact.html">Contact</a>--%>
