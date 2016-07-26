@@ -12,13 +12,9 @@
     </jsp:attribute>
     <jsp:attribute name="pagebody">
         <div class="camera_wrap">
-            <div data-src="http://placehold.it/940x528"></div>
-            <div data-src="http://placehold.it/940x528"></div>
-            <div data-src="http://placehold.it/940x528"></div>
-            <div data-src="http://placehold.it/940x528"></div>
-            <div data-src="http://placehold.it/940x528"></div>
-            <div data-src="http://placehold.it/940x528"></div>
-            <div data-src="http://placehold.it/940x528"></div>
+            <c:forEach items="${photoList}" var="photo">
+                <div data-src="http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/${photo.id}.jpg"></div>
+            </c:forEach>
         </div>
     </jsp:attribute>
     <jsp:attribute name="pagescripts">

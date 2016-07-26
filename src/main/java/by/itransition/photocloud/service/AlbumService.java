@@ -32,13 +32,19 @@ public class AlbumService implements IAlbumService{
     }
 
     @Override
-    public void addPhoto(int id, String[] photoIds) {
+    public String getName(int id) {
+        return albumRepository.findById(id).getName();
+    }
+
+    @Override
+    public void addPhoto(int id, String name, String[] photoIds) {
         Album album = albumRepository.findById(id);
         Set<Photo> photos = new HashSet<>(0);
         for (String photoId : photoIds) {
             photos.add(photoRepository.findById(photoId));
         }
         album.setPhotos(photos);
+        album.setName(name);
         albumRepository.save(album);
     }
 
@@ -54,11 +60,17 @@ public class AlbumService implements IAlbumService{
 
     @Override
     public void delete(int id) {
-
+        Album album = albumRepository.findById(id);
+        if (album == null) return;
+        album.setDeleted(true);
+        albumRepository.save(album);
     }
 
     @Override
     public void restore(int id) {
-
+        Album album = albumRepository.findById(id);
+        if (album == null) return;
+        album.setDeleted(false);
+        albumRepository.save(album);
     }
 }

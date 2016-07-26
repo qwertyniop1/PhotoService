@@ -2,8 +2,12 @@ package by.itransition.photocloud.config.core;
 
 import by.itransition.photocloud.config.ApplicationConfig;
 import by.itransition.photocloud.config.WebAppConfig;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class SpringMvcInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{

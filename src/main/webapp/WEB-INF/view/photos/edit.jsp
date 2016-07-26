@@ -216,7 +216,7 @@
             }
             $('.image-tools').submit(function() {
                 canvas.deactivateAll().renderAll();
-                download(canvas.toDataURL(), 'dddd.png');
+                download(canvas.toDataURL(), 'dddd.png'); //TODO 5555
                 return false;
             });
             //canvas.renderAll();

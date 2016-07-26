@@ -67,10 +67,10 @@
 
     </jsp:attribute>
     <jsp:attribute name="pagescripts">
-        <script src="<c:url value="/resources/js/jquery.ui.widget.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/jquery.iframe-transport.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/jquery.fileupload.js" />" type="text/javascript"></script>
-        <script src="<c:url value="/resources/js/jquery.cloudinary.js" />" type="text/javascript"></script>
+        <%--<script src="<c:url value="/resources/js/jquery.ui.widget.js" />" type="text/javascript"></script>--%>
+        <%--<script src="<c:url value="/resources/js/jquery.iframe-transport.js" />" type="text/javascript"></script>--%>
+        <%--<script src="<c:url value="/resources/js/jquery.fileupload.js" />" type="text/javascript"></script>--%>
+        <%--<script src="<c:url value="/resources/js/jquery.cloudinary.js" />" type="text/javascript"></script>--%>
         <script src="<c:url value="/resources/js/dropzone.js" />" type="text/javascript"></script>
         <!-- Add fancyBox -->
         <link rel="stylesheet" href="<c:url value="/resources/fancybox/jquery.fancybox.css?v=2.1.5"/>" type="text/css" media="screen" />
@@ -142,6 +142,19 @@
                                         $(this).find('.caption').slideUp(250); //.fadeOut(205)
                                     }
                             );
+                            $('.btn-danger').on('click', function () {
+                                var button = $(this);
+                                $.post('photo/delete', {photo_id: button.data('photoid'),
+                                ${_csrf.parameterName}: "${_csrf.token}"},
+                                function (data, status) {
+                                    var thumb = button.closest('.thumbnail');
+                                    var caption = thumb.find('.caption');
+                                    caption.hide();
+                                    caption.removeClass('caption');
+                                    caption.addClass('caption-del');
+                                    thumb.find('.deleted').fadeIn(250);
+                                });
+                            });
                             $('.panel-warning').remove();
                         });
                     }
@@ -159,7 +172,6 @@
                 );
 
                 // delete photo
-                // TODO add to new elements
                 $('.btn-danger').on('click', function () {
                     var button = $(this);
                     $.post('photo/delete', {photo_id: button.data('photoid'),

@@ -41,6 +41,13 @@ public class Album {
         this.deleted = deleted;
     }
 
+    public Album(String name, User user, boolean deleted, Set<Photo> photos) {
+        this.name = name;
+        this.user = user;
+        this.deleted = deleted;
+        this.photos = photos;
+    }
+
     public Album(int id, String name, User user, Date date, boolean deleted) {
         this.id = id;
         this.name = name;

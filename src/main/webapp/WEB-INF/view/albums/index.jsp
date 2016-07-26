@@ -13,6 +13,10 @@
 <fmt:message key="label.restore" var="restoreLabel"/>
 <fmt:message key="message.cancelDelete" var="reviveLabel"/>
 <fmt:message key="message.startSlideshow" var="startSlideshow"/>
+<fmt:message key="label.albumTitle" var="albumTitle"/>
+<fmt:message key="label.cancel" var="cancel"/>
+<fmt:message key="label.create" var="create"/>
+
 
 <t:pagewrapper title="${title}">
     <jsp:attribute name="pagestyles">
@@ -30,9 +34,10 @@
         <div class="row">
             <div class="col-md-5"></div>
             <div class="col-md-2">
-                <a href="<c:url value="/albums/create"/>" id="add-album" type="button" class="btn btn-success btn-lg">
+                <button type="button" id="add-album" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    ${addAlbum}</a>
+                    ${addAlbum}
+                </button>
             </div>
             <div class="col-md-5"></div>
         </div>
@@ -60,7 +65,7 @@
                         </a>
                     </div>
                 </div>
-                <a href="#" title="${startSlideshow}">
+                <a href="<c:url value="/albums/show/${album.id}"/>" title="${startSlideshow}">
                     <img src="<c:url value="http://res.cloudinary.com/itraphotocloud/image/upload/c_thumb,h_150,w_150/npvp2apyuhm81higa7vj.jpg"/>">
                 </a>
                 <div class="album-title" style="text-align: center">
@@ -72,6 +77,29 @@
 
     </jsp:attribute>
     <jsp:attribute name="pagescripts">
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">${addAlbum}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <%--<label for="exampleInputEmail1">Email address</label>--%>
+                            <input type="email" class="form-control" id="album-name" placeholder="${albumTitle}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">${cancel}</button>
+                        <button type="button" class="btn btn-primary" id="create-button">${create}</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
         <script type="text/javascript">
 
             $(document).ready(function () {
@@ -92,7 +120,7 @@
                 // delete album
                 $('.btn-danger').on('click', function () {
                     var button = $(this);
-                    $.post('lol/delete', {album_id: button.data('albumid'),
+                    $.post('/albums/delete', {album_id: button.data('albumid'),
                     ${_csrf.parameterName}: "${_csrf.token}"},
                     function (data, status) {
                         var thumb = button.closest('.thumbnail');
@@ -107,7 +135,7 @@
                 // restore album
                 $('.btn-info').on('click', function () {
                     var button = $(this);
-                    $.post('lol/restore', {album_id: button.data('albumid'),
+                    $.post('/albums/restore', {album_id: button.data('albumid'),
                     ${_csrf.parameterName}: "${_csrf.token}"},
                     function (data, status) {
                         var thumb = button.closest('.thumbnail');
@@ -117,6 +145,23 @@
                         caption.addClass('album-thumb');
                     });
                 });
+
+                $('#create-button').on('click', function () {
+                    if ($(this).closest('.modal-dialog').find('input').val().length < 1) {
+                        $(this).closest('.modal-dialog').find('.form-group').addClass('has-error');
+                        return false;
+                    }
+                    $(this).closest('.modal-dialog').find('.form-group').removeClass('has-error');
+
+
+                    $.post('/albums/create', {album: $('#album-name').val(),
+                    ${_csrf.parameterName}: "${_csrf.token}"},
+                    function (data, status) {
+                        console.log(data);
+                        window.location.href = '/albums/';
+                    });
+                });
+
 
 
 

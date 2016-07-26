@@ -26,12 +26,12 @@ public class AlbumController {
         return "albums/index";
     }
 
-    @GetMapping("/create")
-    public String createAlbum(Model model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("photoList", photoService.getUserPhotos(user.getUsername()));
-        return "albums/album";
-    }
+//    @GetMapping("/create")
+//    public String createAlbum(Model model) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        model.addAttribute("photoList", photoService.getUserPhotos(user.getUsername()));
+//        return "albums/album";
+//    }
 
     @PostMapping("/create")
     public @ResponseBody
@@ -46,18 +46,36 @@ public class AlbumController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("photoList", photoService.getUserPhotos(user.getUsername()));
         model.addAttribute("albumPhotos", albumService.getPhotos(id));
+        model.addAttribute("albumId", id);
+        model.addAttribute("albumName", albumService.getName(id));
         return "albums/album";
     }
 
     @PostMapping("/add")
     public @ResponseBody
-    String addPhoto(@RequestParam("photo_list[]") String[] photoIds, @RequestParam int id, Model model) {
-        albumService.addPhoto(id, photoIds);
+    String addPhoto(@RequestParam("photo_list[]") String[] photoIds, @RequestParam int id,
+                    @RequestParam("album_name") String name, Model model) {
+        albumService.addPhoto(id, name, photoIds);
         return "added";
     }
 
-    @GetMapping("/show")
-    public String slideshow(Model model) {
+    @PostMapping("/delete")
+    public @ResponseBody
+    String delete(@RequestParam("album_id") int id, Model model) {
+        albumService.delete(id);
+        return "deleted";
+    }
+
+    @PostMapping("/restore")
+    public  @ResponseBody
+    String restore(@RequestParam("album_id") int id, Model model) {
+        albumService.restore(id);
+        return "restored";
+    }
+
+    @GetMapping("/show/{id}")
+    public String slideshow(@PathVariable int id, Model model) {
+        model.addAttribute("photoList", albumService.getPhotos(id));
         return "photos/slideshow";
     }
 
