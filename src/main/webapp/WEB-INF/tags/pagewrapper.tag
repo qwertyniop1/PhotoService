@@ -28,6 +28,12 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <ul class="f32" style="margin-top: 5px">
+                                <li class="flag gb" style="cursor: pointer" onclick="window.location.href = '?lang=en'"></li>
+                                <li class="flag ru" style="cursor: pointer" onclick="window.location.href = '?lang=ru'"></li>
+                            </ul>
+                        </li>
                     <sec:authorize access="isAnonymous()">
                         <li>
                             <a href="<c:url value="/login" />">${signInLabel}</a>
@@ -86,6 +92,11 @@
         <%--<link href="${dropzonebasic}" rel="stylesheet" />--%>
         <link href="${dropzonestyle}" rel="stylesheet" />
         <link href="${photoStyle}" rel="stylesheet" />
+        <link
+                rel="stylesheet"
+                type="text/css"
+                href="<c:url value="/resources/css/flags32.css"/>"
+        />
         <jsp:invoke fragment="pagestyles"/>
     </jsp:attribute>
     <jsp:attribute name="scripts">

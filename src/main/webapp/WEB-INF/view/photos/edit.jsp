@@ -26,6 +26,13 @@
         </style>
     </jsp:attribute>
     <jsp:attribute name="pagebody">
+          <c:set var="localeCode" value="${pageContext.response.locale}" />
+       <c:if test="${localeCode == 'en' || localeCode == 'en_EN' || localeCode == 'en_US'}">
+            <div class="alert alert-warning alert-dismissible" role="alert" style="margin-top: 20px">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Beta-version</strong> We apologise for the incorrect translation somewhere.
+            </div>
+        </c:if>
       <div class="row">
           <div class="col-md-9">
               <canvas id="main-canvas" width="800" height="600" style="border: 1px solid rgb(0, 0, 0); margin: 20px; "></canvas>

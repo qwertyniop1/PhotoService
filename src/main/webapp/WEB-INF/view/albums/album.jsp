@@ -72,6 +72,14 @@
     </jsp:attribute>
 
     <jsp:attribute name="pagebody">
+        <c:set var="localeCode" value="${pageContext.response.locale}" />
+       <c:if test="${localeCode == 'en' || localeCode == 'en_EN' || localeCode == 'en_US'}">
+            <div class="alert alert-warning alert-dismissible" role="alert" style="margin-top: 20px">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Beta-version</strong> We apologise for the incorrect translation somewhere.
+            </div>
+        </c:if>
+
         <div class="row" style="margin-top: 30px">
             <div class="col-md-6">
                 <form class="form-inline" method="get" action="<c:url value="/albums"/>">
@@ -83,10 +91,12 @@
                 </form>
             </div>
             <div class="col-md-6">
-                <button type="button" class="btn btn-success" id="start-slideshow">${slideshow}</button>
+                <button type="button" class="btn btn-success pull-right" id="start-slideshow" style="margin: 20px; margin-right: 40px;">${slideshow}</button>
             </div>
         </div>
 
+
+    <div class="mblock" style="display: none">
         <div class="row" id="settings">
             <div class="col-md-3">
             <div class="checkbox">
@@ -177,6 +187,10 @@
                 </div>
             </div>
         </div>
+        </div>
+
+        <button type="button" id="more-info" class="btn btn-info" style="margin-left: 20px">Настройки</button>
+        <button type="button" id="less-info" class="btn btn-info" style="display: none; margin-left: 20px">Скрыть</button>
 
         <div id="album-photos" class="flex-container">
             <c:forEach items="${albumPhotos}" var="photo">
@@ -202,7 +216,18 @@
 
             $(document).ready(function () {
 
-                console.log("lol");
+                $('#more-info').on('click', function () {
+                    $('.mblock').slideDown(500);
+                    $('#less-info').show();
+                    $(this).hide();
+                });
+                $('#less-info').on('click', function () {
+                    $('.mblock').slideUp(500);
+                    $('#more-info').show();
+                    $(this).hide();
+                });
+
+//                console.log("lol");
                 <c:forEach items="${albumDto.effects}" var="effect">
                     $('#${effect}').prop('checked', true);
                 </c:forEach>
@@ -252,6 +277,48 @@
 
 
                 });
+
+                $('#start-slideshow').on('click', function () {
+                    var photoIds = [];
+                    $('#album-photos').children().each(function () {
+                        photoIds.push($(this).data('photoid'));
+                    });
+                    if (photoIds.length === 0) {
+                        photoIds.push("nope");
+                    }
+                    console.log(photoIds);
+
+                    var effects = "";
+                    $('.effects').find('input:checked').each(function () {
+                        effects += $(this).attr('id') + '$';
+                    });
+                    if (effects.length === 0) {
+                        effects = "random";
+                    }
+                    var speed = $('#speed').val() * -1;
+                    var effectSpeed = $('#effect-speed').val() * -1;
+                    var randomOrder = $('#randomOrder').prop('checked');
+                    console.log(randomOrder);
+                    console.log(effects, speed, effectSpeed);
+
+                    $.post('add', {album_name: $('#album-name').val(),
+                        photo_list: photoIds,
+                        id: ${albumDto.id},
+                        random: randomOrder,
+                        speed: speed,
+                        effect_speed: effectSpeed,
+                        effects: effects,
+                    ${_csrf.parameterName}: "${_csrf.token}"}, function () {
+                        if (photoIds[0] !== 'nope') {
+                            window.location.href = '/albums/show/${albumDto.id}';
+                        } else {
+                            $('#album-photos').css('border', '1px solid rgba(202, 47, 22, 0.75)');
+                        }
+                    });
+
+
+                });
+
 
             });
 
