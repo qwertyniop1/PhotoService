@@ -37,7 +37,6 @@ public class PhotoController {
         return "photos/edit";
     }
 
-    // TODO saving to the cloud
     @PostMapping("/edit")
     public String savePhoto(Model model) {
         return "redirect:/photo";

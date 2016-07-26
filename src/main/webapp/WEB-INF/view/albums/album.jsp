@@ -83,7 +83,7 @@
                 </form>
             </div>
             <div class="col-md-6">
-                <a href="<c:url value="/albums/show/${albumDto.id}"/>" class="btn btn-success pull-right" style="margin: 20px; margin-right: 40px;">${slideshow}</a>
+                <button type="button" class="btn btn-success" id="start-slideshow">${slideshow}</button>
             </div>
         </div>
 

@@ -23,8 +23,17 @@
         <script type="text/javascript">
             $(document).ready(function () {
 
-                jQuery('.camera_wrap').camera();
+                var effects = '<c:forEach items="${albumDto.effects}" var="effect">${effect},</c:forEach>';
+                effects = effects.slice(0, -1);
 
+                jQuery('.camera_wrap').camera({
+                    fx: effects,
+                    <c:if test="${albumDto.random}">
+                    slideOn: 'random',
+                    </c:if>
+                    time: ${albumDto.speed},
+                    transPeriod: ${albumDto.effectsSpeed}
+                });
 
             });
 

@@ -31,7 +31,7 @@
               <canvas id="main-canvas" width="800" height="600" style="border: 1px solid rgb(0, 0, 0); margin: 20px; "></canvas>
           </div>
           <div class="col-md-3">
-              <form class="image-tools" action="<c:url value="/photo/edit"/> " style="margin-top: 50px;">
+              <form class="image-tools" method="get" action="<c:url value="/photo"/> " style="margin-top: 50px;">
                   <div class="checkbox">
                       <label>
                           Яркость
@@ -53,7 +53,7 @@
                   <div class="checkbox">
                       <label>
                           Шум
-                          <input type="range" value="0" min="0" max="1000" step="20" class="slider" id="slider-noise">
+                          <input type="range" value="0" min="0" max="1000" step="50" class="slider" id="slider-noise">
                       </label>
                   </div>
 
@@ -119,16 +119,32 @@
     </jsp:attribute>
     <jsp:attribute name="pagescripts">
         <script src="/resources/js/fabric.min.js" type="text/javascript"></script>
+        <script src="/resources/js/jquery.mousewheel.min.js" type="text/javascript"></script>
+
         <script type="text/javascript">
             var canvas = new fabric.Canvas('main-canvas');
             canvas.selection = true;
 
             var mainImage;
 
-            fabric.Image.fromURL('http://res.cloudinary.com/itraphotocloud/image/upload/c_limit,w_800,h_600/${photo_id}.jpg', function(image) {
+            fabric.Image.fromURL('http://res.cloudinary.com/itraphotocloud/image/upload/${photo_id}.jpg', function(image) {
                 mainImage = image;
+                mainImage.centeredScaling = true;
                 canvas.add(mainImage);
             }, {crossOrigin: 'anonymous'});
+
+            $('.upper-canvas').on('mousewheel', function(e) {
+                console.log(event.deltaX, event.deltaY, event.deltaFactor);
+                var evt=window.event || e;
+                var delta = evt.detail? evt.detail*(-120) : evt.wheelDelta;
+                var curZoom = canvas.getZoom(),  newZoom = curZoom + delta / 4000,
+                        x = e.offsetX, y = e.offsetY;
+                //applying zoom values.
+                canvas.zoomToPoint({ x: x, y: y }, newZoom);
+                if(e != null)e.preventDefault();
+                return false;
+            });
+
 
             // sliders
             $('.slider').on("input", (function(e){
@@ -236,7 +252,20 @@
             }
             $('.image-tools').submit(function() {
                 canvas.deactivateAll().renderAll();
-                download(canvas.toDataURL(), 'dddd.png');
+                //download(canvas.toDataURL(), 'dddd.png');
+                $.post('https://api.cloudinary.com/v1_1/cloud9/image/upload', {
+                    file: canvas.toDataURL(),
+                    api_key: 891695265656755,
+                    timestamp: Date.now() / 1000 | 0,
+                    upload_preset: 'lrwcwlyh'
+                }, function (data, status) {
+                    $.post('/photo/upload', {photo_id: data.public_id,
+                    ${_csrf.parameterName}: "${_csrf.token}"},
+                    function (data, status) {
+                        console.log(data);
+                        window.location.href = '/photo';
+                    })
+                });
                 return false;
             });
             //canvas.renderAll();
