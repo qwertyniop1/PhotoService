@@ -73,7 +73,7 @@ public class AlbumController {
         return "restored";
     }
 
-    @GetMapping("/show/{id}")
+    @GetMapping("/show/{id}") //TODO 0 photos
     public String slideshow(@PathVariable int id, Model model) {
         model.addAttribute("photoList", albumService.getPhotos(id));
         return "photos/slideshow";

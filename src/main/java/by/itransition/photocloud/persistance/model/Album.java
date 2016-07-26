@@ -32,6 +32,18 @@ public class Album {
     @Column
     private boolean deleted;
 
+    @Column
+    private String effects;
+
+    @Column
+    private int speed;
+
+    @Column(name = "effect_speed")
+    private int effectSpeed;
+
+    @Column(name = "p_order")
+    private boolean randonOrder;
+
     public Album() {
     }
 
@@ -41,19 +53,29 @@ public class Album {
         this.deleted = deleted;
     }
 
-    public Album(String name, User user, boolean deleted, Set<Photo> photos) {
-        this.name = name;
-        this.user = user;
-        this.deleted = deleted;
-        this.photos = photos;
-    }
+//    public Album(String name, User user, boolean deleted, String effects,
+//                 int speed, int effectSpeed, boolean randonOrder) {
+//        this.name = name;
+//        this.user = user;
+//        this.deleted = deleted;
+//        this.photos = photos;
+//        this.speed = speed;
+//        this.effectSpeed = effectSpeed;
+//        this.randonOrder = randonOrder;
+//    }
 
-    public Album(int id, String name, User user, Date date, boolean deleted) {
+    public Album(int id, String name, User user, Set<Photo> photos, Date date,
+                 boolean deleted, String effects, int speed, int effectSpeed, boolean randonOrder) {
         this.id = id;
         this.name = name;
         this.user = user;
+        this.photos = photos;
         this.date = date;
         this.deleted = deleted;
+        this.effects = effects;
+        this.speed = speed;
+        this.effectSpeed = effectSpeed;
+        this.randonOrder = randonOrder;
     }
 
     public int getId() {
@@ -102,6 +124,38 @@ public class Album {
 
     public void setPhotos(Set<Photo> photos) {
         this.photos = photos;
+    }
+
+    public String getEffects() {
+        return effects;
+    }
+
+    public void setEffects(String effects) {
+        this.effects = effects;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int getEffectSpeed() {
+        return effectSpeed;
+    }
+
+    public void setEffectSpeed(int effectSpeed) {
+        this.effectSpeed = effectSpeed;
+    }
+
+    public boolean isRandonOrder() {
+        return randonOrder;
+    }
+
+    public void setRandonOrder(boolean randonOrder) {
+        this.randonOrder = randonOrder;
     }
 
     @Override

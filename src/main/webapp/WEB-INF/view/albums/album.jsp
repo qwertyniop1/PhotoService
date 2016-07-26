@@ -11,6 +11,66 @@
 
 
 <t:pagewrapper title="${title}">
+    <jsp:attribute name="pagestyles">
+        <style>
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+            .switch input {display:none;}
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+        </style>
+    </jsp:attribute>
+
     <jsp:attribute name="pagebody">
         <div class="row" style="margin-top: 30px">
             <div class="col-md-6">
@@ -27,48 +87,94 @@
             </div>
         </div>
 
-        <div class="row" id="effects">
+        <div class="row" id="settings">
+            <div class="col-md-3">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" id="simpleFade" class="a">
+                    Скорость
+                    <input type="range" value="-7000" min="-10000" max="-200" step="100" id="speed">
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    Скорость эффектов
+                    <input type="range" value="-1500" min="-3000" max="-100" step="100" id="effect-speed">
+                </label>
+            </div>
+            <div class="checkbox">
+                <label class="switch">
+                    <input type="checkbox" id="randomOrder" class="a">
+                    <div class="slider round"></div>
+                </label>
+                Случайный порядок
+            </div>
+            </div>
+            <div class="col-md-3 effects">
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="simpleFade" class="a">
+                        <div class="slider round"></div>
+                    </label>
                     Затенение
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="curtainTopLeft" class="a">
+                </div>
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="curtainTopLeft" class="a">
+                        <div class="slider round"></div>
+                    </label>
                     Шторка слева сверху
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="curtainTopRight" class="a">
+                </div>
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="curtainTopRight" class="a">
+                        <div class="slider round"></div>
+                    </label>
                     Шторка справа сверху
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="curtainBottomLeft" class="a">
+                </div>
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="curtainBottomLeft" class="a">
+                        <div class="slider round"></div>
+                    </label>
                     Шторка слева снизу
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="curtainBottomRight" class="a">
+                </div>
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="curtainBottomRight" class="a">
+                        <div class="slider round"></div>
+                    </label>
                     Шторка справа снизу
-                </label>
+                </div>
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="curtainSliceLeft" class="a">
+            <div class="col-md-3 effects">
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="curtainSliceLeft" class="a">
+                        <div class="slider round"></div>
+                    </label>
                     Шторка слева
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="curtainSliceRight" class="a">
+                </div>
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="curtainSliceRight" class="a">
+                        <div class="slider round"></div>
+                    </label>
                     Шторка справа
-                </label>
+                </div>
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="mosaic" class="a">
+                        <div class="slider round"></div>
+                    </label>
+                    Мозайка
+                </div>
+                <div class="checkbox">
+                    <label class="switch">
+                        <input type="checkbox" id="mosaicSpiral" class="a">
+                        <div class="slider round"></div>
+                    </label>
+                    Спиральная мозайка
+                </div>
             </div>
         </div>
 
