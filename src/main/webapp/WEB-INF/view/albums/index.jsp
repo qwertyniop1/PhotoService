@@ -60,7 +60,7 @@
                     <h4>${deleted}</h4>
                     <p>${reviveLabel}</p>
                     <div class="toolbar">
-                        <a href="#"data-albumid="${album.id}" class="btn btn-info" rel="tooltip" title="${restoreLabel}">
+                        <a href="#"data-albumid="${album.id}" class="btn btn-info restore" rel="tooltip" title="${restoreLabel}">
                             <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                         </a>
                     </div>
@@ -133,7 +133,7 @@
                 });
 
                 // restore album
-                $('.btn-info').on('click', function () {
+                $('.restore').on('click', function () {
                     var button = $(this);
                     $.post('/albums/restore', {album_id: button.data('albumid'),
                     ${_csrf.parameterName}: "${_csrf.token}"},

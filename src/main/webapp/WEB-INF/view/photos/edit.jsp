@@ -7,6 +7,24 @@
 <fmt:message key="label.editTitle" var="title"/>
 
 <t:pagewrapper title="${title}">
+    <jsp:attribute name="pagestyles">
+        <style>
+            input[type=range] {
+                -webkit-appearance: none;
+                background-color: silver;
+                width: 200px;
+                height:20px;
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                background-color: #666;
+                opacity: 0.5;
+                width: 10px;
+                height: 26px;
+            }
+        </style>
+    </jsp:attribute>
     <jsp:attribute name="pagebody">
       <div class="row">
           <div class="col-md-9">
@@ -93,6 +111,7 @@
                           <input type="checkbox" class="filter-box" id="filter-emboss"> Чеканка
                       </label>
                   </div>
+                  <a href="<c:url value="/photo"/>" class="btn btn-default">Отмена</a>
                   <button type="submit" class="btn btn-primary">Сохранить</button>
               </form>
           </div>
@@ -106,7 +125,7 @@
 
             var mainImage;
 
-            fabric.Image.fromURL('http://res.cloudinary.com/itraphotocloud/image/upload/${photo_id}.jpg', function(image) {
+            fabric.Image.fromURL('http://res.cloudinary.com/itraphotocloud/image/upload/c_limit,w_800,h_600/${photo_id}.jpg', function(image) {
                 mainImage = image;
                 canvas.add(mainImage);
             }, {crossOrigin: 'anonymous'});
@@ -152,7 +171,8 @@
                     }
                 }
                 mainImage.filters.push(filter);
-                mainImage.applyFilters(canvas.renderAll.bind(canvas));
+                setTimeout(function() { mainImage.applyFilters(canvas.renderAll.bind(canvas)); }, 100);
+
             }));
 
             // checkboxes

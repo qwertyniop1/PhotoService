@@ -1,5 +1,6 @@
 package by.itransition.photocloud.service;
 
+import by.itransition.photocloud.persistance.dto.AlbumDto;
 import by.itransition.photocloud.persistance.model.Album;
 import by.itransition.photocloud.persistance.model.Photo;
 
@@ -9,9 +10,12 @@ public interface IAlbumService {
 
     void create(String name, String email);
 
-    String getName(int id);
+    Album findById(int id);
 
-    void addPhoto(int id, String name, String[] photoIds);
+    AlbumDto getAlbumDto(int id);
+
+    void addPhoto(int id, String name, String[] photoIds, String effects,
+                  int speed, int effectSpeed, boolean random);
 
     List<Album> getUserAlbums(String email);
 

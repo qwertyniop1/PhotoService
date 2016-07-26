@@ -51,8 +51,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setTo(recipientAddress);
         helper.setSubject(subject);
-        helper.setText("<html><body>" + "<strong>" + user.getFirstName() + " " + user.getLastName()
-                + message + "<br><a href='" + "http://localhost:8080" + confirmationUrl
+        helper.setText("<html><body>" + "<strong>" + message + "<br><a href='" + "http://localhost:8080" + confirmationUrl
                 + "'>http://localhost:8080" + confirmationUrl + "</a></body></html>", true);
         helper.setFrom(environment.getProperty("support.email"));
         mailSender.send(mimeMessage);

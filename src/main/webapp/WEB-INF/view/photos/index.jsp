@@ -13,6 +13,7 @@
 <fmt:message key="message.nophotos" var="noPhoto"/>
 <fmt:message key="message.deleted" var="deletedPhoto"/>
 <fmt:message key="message.cancelDelete" var="revivePhoto"/>
+<fmt:message key="message.drop" var="drop"/>
 
 <t:pagewrapper title="${title}">
     <jsp:attribute name="pagebody">
@@ -53,7 +54,7 @@
                            <h4>${deletedPhoto}</h4>
                            <p>${revivePhoto}</p>
                            <div class="toolbar">
-                               <a href="#" data-photoid="${photo.id}" class="btn btn-info" rel="tooltip" title="${restoreLabel}">
+                               <a href="#" data-photoid="${photo.id}" class="btn btn-info restore" rel="tooltip" title="${restoreLabel}">
                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                                </a>
                            </div>
@@ -93,6 +94,7 @@
                     acceptedFiles:'.jpg,.png,.jpeg,.gif',
                     uploadMultiple: false,
                     maxFiles: 5,
+                    dictDefaultMessage: '${drop}',
                     sending: function (file, xhr, formData) {
                         formData.append('api_key', 891695265656755);
                         formData.append('timestamp', Date.now() / 1000 | 0);
@@ -124,7 +126,7 @@
                                     "<h4>${deletedPhoto}</h4>" +
                                     "<p>${revivePhoto}</p>" +
                                     "<div class='toolbar'>" +
-                                    "<a href='#' data-photoid='" + response.public_id + "' class='btn btn-info' rel='tooltip' title='${restoreLabel}'>" +
+                                    "<a href='#' data-photoid='" + response.public_id + "' class='btn btn-info restore' rel='tooltip' title='${restoreLabel}'>" +
                                     "<span class='glyphicon glyphicon-refresh' aria-hidden='true'></span>" +
                                     "</a>" +
                                     "</div>" +
@@ -187,7 +189,7 @@
                 });
 
                 // restore photo
-                $('.btn-info').on('click', function () {
+                $('.restore').on('click', function () {
                     var button = $(this);
                     $.post('photo/restore', {photo_id: button.data('photoid'),
                     ${_csrf.parameterName}: "${_csrf.token}"},

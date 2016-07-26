@@ -77,13 +77,13 @@
                 <form class="form-inline" method="get" action="<c:url value="/albums"/>">
                     <div class="form-group">
                         <label for="album-name">${albumTitle}</label>
-                        <input type="text" class="form-control" name="album" id="album-name" placeholder="${albumTitle}" value="${albumName}">
+                        <input type="text" class="form-control" name="album" id="album-name" placeholder="${albumTitle}" value="${albumDto.name}">
                     </div>
                     <button type="submit" class="btn btn-primary">${save}</button>
                 </form>
             </div>
             <div class="col-md-6">
-                <a href="<c:url value="/albums/show/${albumId}"/>" class="btn btn-success pull-right" style="margin: 20px; margin-right: 40px;">${slideshow}</a>
+                <a href="<c:url value="/albums/show/${albumDto.id}"/>" class="btn btn-success pull-right" style="margin: 20px; margin-right: 40px;">${slideshow}</a>
             </div>
         </div>
 
@@ -202,6 +202,17 @@
 
             $(document).ready(function () {
 
+                console.log("lol");
+                <c:forEach items="${albumDto.effects}" var="effect">
+                    $('#${effect}').prop('checked', true);
+                </c:forEach>
+                var speed = $('#speed').val(${albumDto.speed} * -1);
+                var effectSpeed = $('#effect-speed').val(${albumDto.effectsSpeed} * -1);
+                var randomOrder = $('#randomOrder').prop('checked', ${albumDto.random});
+
+
+
+
                 $('#all-photos, #album-photos').sortable({
                     cursor: "move",
                     connectWith: ".flex-container"
@@ -212,15 +223,35 @@
                     $('#album-photos').children().each(function () {
                         photoIds.push($(this).data('photoid'));
                     });
+                    if (photoIds.length === 0) {
+                        photoIds.push("nope");
+                    }
                     console.log(photoIds);
 
-                    $.post('add', {album_name: $('#album-name').val(), photo_list: photoIds, id: ${albumId}, ${_csrf.parameterName}: "${_csrf.token}"});
+                    var effects = "";
+                    $('.effects').find('input:checked').each(function () {
+                        effects += $(this).attr('id') + '$';
+                    });
+                    if (effects.length === 0) {
+                        effects = "random";
+                    }
+                    var speed = $('#speed').val() * -1;
+                    var effectSpeed = $('#effect-speed').val() * -1;
+                    var randomOrder = $('#randomOrder').prop('checked');
+                    console.log(randomOrder);
+                    console.log(effects, speed, effectSpeed);
+
+                    $.post('add', {album_name: $('#album-name').val(),
+                                photo_list: photoIds,
+                                id: ${albumDto.id},
+                                random: randomOrder,
+                                speed: speed,
+                                effect_speed: effectSpeed,
+                                effects: effects,
+                                ${_csrf.parameterName}: "${_csrf.token}"});
+
 
                 });
-
-
-
-
 
             });
 

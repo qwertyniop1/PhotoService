@@ -47,10 +47,11 @@ public class Album {
     public Album() {
     }
 
-    public Album(String name, User user, boolean deleted) {
+    public Album(String name, User user, boolean deleted, String effects) {
         this.name = name;
         this.user = user;
         this.deleted = deleted;
+        this.effects = effects;
     }
 
 //    public Album(String name, User user, boolean deleted, String effects,

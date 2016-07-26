@@ -1,5 +1,7 @@
 package by.itransition.photocloud.controller;
 
+import by.itransition.photocloud.persistance.dto.AlbumDto;
+import by.itransition.photocloud.persistance.model.Album;
 import by.itransition.photocloud.service.IAlbumService;
 import by.itransition.photocloud.service.IPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,16 +48,17 @@ public class AlbumController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("photoList", photoService.getUserPhotos(user.getUsername()));
         model.addAttribute("albumPhotos", albumService.getPhotos(id));
-        model.addAttribute("albumId", id);
-        model.addAttribute("albumName", albumService.getName(id));
+        model.addAttribute("albumDto", albumService.getAlbumDto(id));
         return "albums/album";
     }
 
     @PostMapping("/add")
     public @ResponseBody
     String addPhoto(@RequestParam("photo_list[]") String[] photoIds, @RequestParam int id,
-                    @RequestParam("album_name") String name, Model model) {
-        albumService.addPhoto(id, name, photoIds);
+                    @RequestParam("album_name") String name, @RequestParam boolean random,
+                    @RequestParam int speed, @RequestParam("effect_speed") int effectSpeed,
+                    @RequestParam String effects, Model model) {
+        albumService.addPhoto(id, name, photoIds, effects, speed, effectSpeed, random);
         return "added";
     }
 
