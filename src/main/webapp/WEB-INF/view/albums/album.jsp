@@ -309,7 +309,7 @@
                         effect_speed: effectSpeed,
                         effects: effects,
                     ${_csrf.parameterName}: "${_csrf.token}"}, function () {
-                        if (photoIds[0] !== 'nope') {
+                        if (photoIds.length > 1) {
                             window.location.href = '/albums/show/${albumDto.id}';
                         } else {
                             $('#album-photos').css('border', '1px solid rgba(202, 47, 22, 0.75)');

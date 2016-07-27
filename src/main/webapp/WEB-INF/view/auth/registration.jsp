@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <sf:form modelAttribute="user" method="post">
+                <sf:form modelAttribute="user" method="post" acceptCharset="UTF-8">
                     <div class="form-group">
                         <sf:label path="firstName" title="${nameLabel}" for="firstName">${nameLabel}</sf:label>
                         <sf:input path="firstName" cssClass="form-control" />

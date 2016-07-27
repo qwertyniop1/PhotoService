@@ -8,6 +8,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -30,6 +31,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private Environment environment;
 
     @Override
+    @Async
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
         try {
             confirmRegistration(event);
@@ -38,6 +40,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         }
     }
 
+    @Async
     private void confirmRegistration(OnRegistrationCompleteEvent event) throws MessagingException {
         User user = event.getUser();
         String token = UUID.randomUUID().toString();

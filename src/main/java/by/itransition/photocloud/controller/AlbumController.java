@@ -2,6 +2,7 @@ package by.itransition.photocloud.controller;
 
 import by.itransition.photocloud.persistance.dto.AlbumDto;
 import by.itransition.photocloud.persistance.model.Album;
+import by.itransition.photocloud.persistance.model.Photo;
 import by.itransition.photocloud.service.IAlbumService;
 import by.itransition.photocloud.service.IPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/albums")
@@ -78,7 +81,10 @@ public class AlbumController {
 
     @GetMapping("/show/{id}") //TODO 0 photos
     public String slideshow(@PathVariable int id, Model model) {
-        model.addAttribute("photoList", albumService.getPhotos(id));
+        List<Photo> photos = albumService.getPhotos(id);
+        if (photos == null || photos.size() < 2)
+            return "redirect:/albums/" + id;
+        model.addAttribute("photoList", photos);
         model.addAttribute("albumDto", albumService.getAlbumDto(id));
         return "albums/slideshow";
     }

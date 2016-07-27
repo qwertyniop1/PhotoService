@@ -13,7 +13,7 @@
     <jsp:attribute name="pagebody">
         <div class="camera_wrap">
             <c:forEach items="${photoList}" var="photo">
-                <div data-src="http://res.cloudinary.com/itraphotocloud/image/upload/c_scale,h_600/${photo.id}.jpg"></div>
+                <div data-src="http://res.cloudinary.com/itraphotocloud/image/upload/c_pad,h_570,w_1140/${photo.id}.jpg"></div>
             </c:forEach>
         </div>
     </jsp:attribute>

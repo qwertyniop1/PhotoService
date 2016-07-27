@@ -29,7 +29,10 @@ public class AlbumService implements IAlbumService{
 
     @Override
     public void create(String name, String email) {
-        albumRepository.save(new Album(name, userRepository.findByEmail(email), false, "random"));
+        Album album = new Album(name, userRepository.findByEmail(email), false, "random");
+        album.setEffectSpeed(1500);
+        album.setSpeed(5000);
+        albumRepository.save(album);
     }
 
     @Override
