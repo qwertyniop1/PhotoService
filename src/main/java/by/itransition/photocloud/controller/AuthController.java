@@ -16,6 +16,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.Locale;
@@ -47,7 +48,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String registerNewUser(@ModelAttribute("user") @Valid UserDto user, BindingResult result,
-                                  WebRequest request, Errors errors, Model model) {
+                                  HttpServletRequest request, Errors errors, Model model) {
         model.addAttribute(user);
         if (result.hasErrors()) {
             return "auth/registration";
@@ -58,7 +59,7 @@ public class AuthController {
             return "auth/registration";
         }
         try {
-            String appUrl = request.getContextPath();
+            String appUrl = String.format("%s://%s:%d",request.getScheme(),  request.getServerName(), request.getServerPort());
             eventPublisher.publishEvent(new OnRegistrationCompleteEvent
                     (registeredUser, appUrl, request.getLocale()));
         } catch (Exception ex) {
